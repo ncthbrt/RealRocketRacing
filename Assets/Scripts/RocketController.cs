@@ -25,11 +25,24 @@ public class RocketController : MonoBehaviour {
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-
+    public Checkpoint CurrentCheckpoint = null;
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Collided with trigger");
+        
+        var checkpoint=other.GetComponentInParent<Checkpoint>();
+        if (checkpoint!=null && (CurrentCheckpoint==null || checkpoint.CheckpointID>CurrentCheckpoint.CheckpointID))
+        {
+            CurrentCheckpoint=checkpoint;            
+            Debug.Log("Cleared Checkpoint: "+CurrentCheckpoint.CheckpointID);
+        }
     }
+
+    public void Reset()
+    {
+        CurrentCheckpoint = null;
+    }
+
+
 	// Update is called once per frame
 	void Update ()
 	{
@@ -82,6 +95,14 @@ public class RocketController : MonoBehaviour {
         else if (_rightThrusterOn && !Input.GetKey("left"))
         {
             _rightThrusterOn = false;            
+        }
+
+        if (Input.GetKey("r") && CurrentCheckpoint!=null)
+        {
+            rigidbody2D.velocity=new Vector2();
+            rigidbody2D.angularVelocity =0 ;
+            rigidbody2D.MovePosition(CurrentCheckpoint.Location);
+            transform.eulerAngles=new Vector3(0,0,CurrentCheckpoint.Heading+90);
         }
     }
 
