@@ -25,7 +25,8 @@ public class RocketController : MonoBehaviour {
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    void OnTriggerEnter(Collider other)
+
+    void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("Collided with trigger");
     }
@@ -40,22 +41,17 @@ public class RocketController : MonoBehaviour {
         HandleControllerInput();       
 
 	    if (lastMain^_mainThrusterOn)
-	    {
-            Debug.Log("Main "+(_mainThrusterOn?"on":"off"));
+	    {         
 	        ThrusterStateChange(_mainThrusterOn,MainThrusters);
 	    }
         if (lastLeft^ _leftThrusterOn)
-        {
-            Debug.Log("Left " + (_leftThrusterOn? "on" : "off"));
+        {         
             ThrusterStateChange(_leftThrusterOn, LeftThrusters);
         }
         if (lastRight^ _rightThrusterOn)
-        {
-            Debug.Log("Right " + (_rightThrusterOn? "on" : "off"));
+        {         
             ThrusterStateChange(_rightThrusterOn, RightThrusters);
-        }
-
-        
+        }        
 	}
 
     void HandleControllerInput()
