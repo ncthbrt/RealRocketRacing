@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fa27971a18e95943b76fe222456e255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImpulsePerFixedUpdate: .00999999978
+  ImpulsePerFixedUpdate: .0199999996
 --- !u!114 &11475826
 MonoBehaviour:
   m_ObjectHideFlags: 1
