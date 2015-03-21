@@ -6,11 +6,6 @@ public class CameraScript : MonoBehaviour
 {
 
     public Rigidbody2D Rocket;
-    public float MaxSpeed;
-    public float Mass;
-        
-    
-    public float DeadZone;    
 
     private void Start()
     {    

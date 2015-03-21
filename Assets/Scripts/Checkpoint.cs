@@ -4,23 +4,19 @@ using System.Collections;
 public class Checkpoint : MonoBehaviour
 {
     public int CheckpointID;
+	public Transform SpawnPoint;
+	
+
     public Vector2 Location
     {
-        get { return new Vector2(transform.position.x, transform.position.y); }
+        get { return new Vector2(SpawnPoint.position.x, SpawnPoint.position.y); }
     }
 
     public float Heading
     {
-        get { return transform.eulerAngles.z; }
+        get { return SpawnPoint.eulerAngles.z; }
     }
 
-    // Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    
+
 }
