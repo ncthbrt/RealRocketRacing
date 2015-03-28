@@ -5,7 +5,7 @@ using System.Collections;
 public class CheckpointRenderer : MonoBehaviour
 {
 
-    public Camera CurrentCamera;
+	public Camera CurrentCamera;
     public Transform StartPoint;
     public Transform EndPoint;
     private Material _material;
@@ -41,8 +41,8 @@ public class CheckpointRenderer : MonoBehaviour
     private void Update()
     {
 
-        var screenCoordA= CurrentCamera.WorldToViewportPoint(StartPoint.position);
-        var screenCoordB= CurrentCamera.WorldToViewportPoint(EndPoint.position);
+		var screenCoordA= CurrentCamera.WorldToViewportPoint(StartPoint.position);
+		var screenCoordB= CurrentCamera.WorldToViewportPoint(EndPoint.position);
         if (OnScreen(screenCoordA) || OnScreen(screenCoordB))
         {
             _renderer = GetComponent<LineRenderer>();

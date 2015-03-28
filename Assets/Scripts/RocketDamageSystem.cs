@@ -29,7 +29,12 @@ public class RocketDamageSystem : MonoBehaviour {
 		collisionTime.Add (currentTime);
 	}
 	
-
+	private void Respawn(){
+		var checkpoint = _checkpointSystem.CurrentCheckpoint;
+		rigidbody2D.velocity.Set (0, 0);
+		rigidbody2D.MovePosition(checkpoint.Location);
+		rigidbody2D.MoveRotation(checkpoint.Heading);
+	}
 	private void ResolveCollision(Collision2D other){
 		for (int i=0; i<collisions.Count; ++i) {
 			if(collisions[i].collider==other.collider){//Colliding w/ same object					

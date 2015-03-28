@@ -9,8 +9,8 @@ public class RocketCheckpointSystem : MonoBehaviour {
 										   * The other checkpoints follow an ascendant rule.
 										   */
 									
-	public Checkpoint CurrentCheckpoint{ get; private set; }
-	public Checkpoint StartingCheckpoint{get; private set;}
+	public Checkpoint CurrentCheckpoint{ get;  private set; }
+	public Checkpoint StartingCheckpoint{get;  set;}
 
 
 
@@ -32,9 +32,10 @@ public class RocketCheckpointSystem : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other)
 	{		
 		var checkpoint=other.GetComponentInParent<Checkpoint>();
-		if (checkpoint!=null && (CurrentCheckpoint==null || checkpoint.CheckpointID>CurrentCheckpoint.CheckpointID || checkpoint.CheckpointID==LAST_CHECKPOINT))
+		if (checkpoint!=null && (CurrentCheckpoint==null || checkpoint.CheckpointID>CurrentCheckpoint.CheckpointID || (CurrentCheckpoint.CheckpointID!=0 && checkpoint.CheckpointID==LAST_CHECKPOINT)))
 		{
 			CurrentCheckpoint=checkpoint;            
+			Debug.Log("Current Checkpoint: "+CurrentCheckpoint.CheckpointID);
 			if(CurrentCheckpoint.CheckpointID==0 && _lapCompleteCallbacks!=null){//If the agent has completed a lap
 				_lapCompleteCallbacks(gameObject);
 			}else if(_passedCheckpointCallbacks!=null){
