@@ -24,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 119830}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.0278206, y: -4.18349314, z: 0}
+  m_LocalPosition: {x: 42, y: 58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -40,11 +40,11 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_Poly:
     m_Paths:
-    - - {x: -.239932537, y: .500531673}
-      - {x: -.499108791, y: .255660057}
-      - {x: -.497202635, y: -.5}
+    - - {x: .508705139, y: .512191772}
+      - {x: -.22454834, y: .510906219}
+      - {x: -.503131866, y: .24124527}
+      - {x: -.50320816, y: -.511360168}
       - {x: .5, y: -.5}
-      - {x: .5, y: .5}
 --- !u!212 &21219830
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -64,7 +64,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300012, guid: 83877809b47a3b64fa25d8e40a442fce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000

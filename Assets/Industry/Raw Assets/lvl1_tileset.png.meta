@@ -47,7 +47,7 @@ TextureImporter:
   textureFormat: -3
   maxTextureSize: 1024
   textureSettings:
-    filterMode: 0
+    filterMode: 1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -63,14 +63,18 @@ TextureImporter:
   spritePixelsToUnits: 63
   alphaIsTransparency: 1
   textureType: 8
-  buildTargetSettings: []
+  buildTargetSettings:
+  - buildTarget: Standalone
+    maxTextureSize: 1024
+    textureFormat: -3
+    compressionQuality: 50
   spriteSheet:
     sprites:
     - name: lvl1_tileset_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
+        x: 1
+        y: 130
         width: 64
         height: 64
       alignment: 0
@@ -79,8 +83,8 @@ TextureImporter:
     - name: lvl1_tileset_1
       rect:
         serializedVersion: 2
-        x: 64
-        y: 128
+        x: 66
+        y: 130
         width: 64
         height: 64
       alignment: 0
@@ -89,8 +93,8 @@ TextureImporter:
     - name: lvl1_tileset_2
       rect:
         serializedVersion: 2
-        x: 128
-        y: 128
+        x: 131
+        y: 130
         width: 64
         height: 64
       alignment: 0
@@ -99,8 +103,8 @@ TextureImporter:
     - name: lvl1_tileset_3
       rect:
         serializedVersion: 2
-        x: 192
-        y: 128
+        x: 196
+        y: 130
         width: 64
         height: 64
       alignment: 0
@@ -109,8 +113,8 @@ TextureImporter:
     - name: lvl1_tileset_4
       rect:
         serializedVersion: 2
-        x: 256
-        y: 128
+        x: 261
+        y: 130
         width: 64
         height: 64
       alignment: 0
@@ -119,9 +123,9 @@ TextureImporter:
     - name: lvl1_tileset_5
       rect:
         serializedVersion: 2
-        x: 320
-        y: 128
-        width: 64
+        x: 326
+        y: 130
+        width: 65
         height: 64
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -129,18 +133,18 @@ TextureImporter:
     - name: lvl1_tileset_6
       rect:
         serializedVersion: 2
-        x: 384
-        y: 128
+        x: 391
+        y: 130
         width: 64
         height: 64
       alignment: 0
       pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 0, z: 0, w: 0}
     - name: lvl1_tileset_7
       rect:
         serializedVersion: 2
-        x: 448
-        y: 128
+        x: 456
+        y: 130
         width: 64
         height: 64
       alignment: 0
@@ -149,8 +153,8 @@ TextureImporter:
     - name: lvl1_tileset_8
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 1
+        y: 65
         width: 64
         height: 64
       alignment: 0
@@ -159,8 +163,8 @@ TextureImporter:
     - name: lvl1_tileset_9
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
+        x: 66
+        y: 65
         width: 64
         height: 64
       alignment: 0
@@ -169,8 +173,8 @@ TextureImporter:
     - name: lvl1_tileset_10
       rect:
         serializedVersion: 2
-        x: 128
-        y: 64
+        x: 131
+        y: 65
         width: 64
         height: 64
       alignment: 0
@@ -179,8 +183,8 @@ TextureImporter:
     - name: lvl1_tileset_11
       rect:
         serializedVersion: 2
-        x: 192
-        y: 64
+        x: 196
+        y: 65
         width: 64
         height: 64
       alignment: 0
@@ -189,8 +193,8 @@ TextureImporter:
     - name: lvl1_tileset_12
       rect:
         serializedVersion: 2
-        x: 256
-        y: 64
+        x: 261
+        y: 65
         width: 64
         height: 64
       alignment: 0
@@ -199,8 +203,8 @@ TextureImporter:
     - name: lvl1_tileset_13
       rect:
         serializedVersion: 2
-        x: 320
-        y: 64
+        x: 326
+        y: 65
         width: 64
         height: 64
       alignment: 0
@@ -209,8 +213,8 @@ TextureImporter:
     - name: lvl1_tileset_14
       rect:
         serializedVersion: 2
-        x: 384
-        y: 64
+        x: 391
+        y: 65
         width: 64
         height: 64
       alignment: 0
@@ -219,8 +223,8 @@ TextureImporter:
     - name: lvl1_tileset_15
       rect:
         serializedVersion: 2
-        x: 448
-        y: 64
+        x: 456
+        y: 65
         width: 64
         height: 64
       alignment: 0
@@ -229,7 +233,7 @@ TextureImporter:
     - name: lvl1_tileset_16
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 0
         width: 64
         height: 64
@@ -239,7 +243,7 @@ TextureImporter:
     - name: lvl1_tileset_17
       rect:
         serializedVersion: 2
-        x: 64
+        x: 66
         y: 0
         width: 64
         height: 64
@@ -249,7 +253,7 @@ TextureImporter:
     - name: lvl1_tileset_18
       rect:
         serializedVersion: 2
-        x: 128
+        x: 131
         y: 0
         width: 64
         height: 64
@@ -259,7 +263,7 @@ TextureImporter:
     - name: lvl1_tileset_19
       rect:
         serializedVersion: 2
-        x: 192
+        x: 196
         y: 0
         width: 64
         height: 64
@@ -269,7 +273,7 @@ TextureImporter:
     - name: lvl1_tileset_20
       rect:
         serializedVersion: 2
-        x: 256
+        x: 261
         y: 0
         width: 64
         height: 64
@@ -279,17 +283,7 @@ TextureImporter:
     - name: lvl1_tileset_21
       rect:
         serializedVersion: 2
-        x: 384
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: lvl1_tileset_22
-      rect:
-        serializedVersion: 2
-        x: 448
+        x: 391
         y: 0
         width: 64
         height: 64

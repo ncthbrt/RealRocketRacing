@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 
 public class RocketController : MonoBehaviour {
 
@@ -78,7 +79,7 @@ public class RocketController : MonoBehaviour {
         if (Input.GetKey("r"))
         {
 
-			var r_system=GetComponent<RocketCheckpointSystem>();
+			var r_system=GetComponent<RocketRaceMetrics>();
             rigidbody2D.velocity=new Vector2();
             rigidbody2D.angularVelocity =0 ;
             rigidbody2D.MovePosition(r_system.CurrentCheckpoint.Location);

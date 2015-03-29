@@ -22,7 +22,7 @@ public class CheckpointRenderer : MonoBehaviour
         _renderer.SetWidth(0.05f,0.05f);
         _renderer.sortingLayerName = "Player";
 		_renderer.sortingOrder =0;
-        _renderer.SetColors(new Color(0f, 0f, 1f, 0.5f), new Color(0, 0f, 0.5f, 0.5f));
+        _renderer.SetColors(new Color(1f, 1f, 1f, 0.5f), new Color(0.5f, 0.5f, 0.5f, 0.5f));
                 
         _material= new Material(Shader.Find("Particles/Additive"));
         _renderer.material =_material;

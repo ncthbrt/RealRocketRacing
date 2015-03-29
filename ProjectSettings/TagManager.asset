@@ -49,6 +49,10 @@ TagManager:
     userID: 2
     uniqueID: 3180873295
     locked: 0
+  - name: GUI
+    userID: 4
+    uniqueID: 1790761659
+    locked: 0
   - name: Player
     userID: 1
     uniqueID: 3562979535

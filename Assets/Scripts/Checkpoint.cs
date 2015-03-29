@@ -5,7 +5,7 @@ public class Checkpoint : MonoBehaviour
 {
     public int CheckpointID;
 	public Transform SpawnPoint;
-	
+    
 
     public Vector2 Location
     {
