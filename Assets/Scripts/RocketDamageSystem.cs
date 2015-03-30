@@ -8,15 +8,16 @@ public class RocketDamageSystem : MonoBehaviour {
 	void Start () {		
 	    LivesRemaining = LivesAtStart;
 	    Health = 1f;
-	    _respawnCallbacks += ResetPosition;
+        
 	    _metrics = GetComponent<RocketRaceMetrics>();
+        _respawnCallbacks += _metrics.ToCurrentCheckpoint;
 	}
 
     private int damageCount = 0;
 
-    private RocketRaceMetrics _metrics;    
+    private RocketRaceMetrics _metrics;
 
-    public float DamageScalingFactor=10;//Determines how much damage is receive
+    public float DamageScalingFactor;//Determines how much damage is receive
 
 
     void Update() { }
@@ -25,18 +26,18 @@ public class RocketDamageSystem : MonoBehaviour {
     public float Health { get; set; }
     public int LivesRemaining { get; private set; }
 
-    public delegate void RocketDamaged(GameObject rocket, float damage,float remainingHealth);
-    public delegate  void RocketCritical(GameObject rocket,float damage,float remainingHealth);//When the rocket has less than 10% health remaining
+    public delegate void RocketDamage(GameObject rocket, float damage,float remainingHealth);    
+
     public delegate void Respawn(GameObject rocket);
 
+    
     public delegate void NoLivesRemaining(GameObject rocket);
 
-    private Respawn _respawnCallbacks;
-    private RocketCritical _criticalCallbacks;
-    private RocketDamaged _damagedCallbacks;
+    private Respawn _respawnCallbacks;    
+    private RocketDamage _damagedCallbacks;    
     private NoLivesRemaining _noLivesRemainingCallbacks;
-
-	public float DamageVelocityThreshold;//How fast do you need to go before damage is received
+    
+	
 
 
     public void AddRespawnCallback(Respawn callback)
@@ -44,27 +45,31 @@ public class RocketDamageSystem : MonoBehaviour {
         _respawnCallbacks += callback;
     }
 
-    public void AddOnDamageCallback(RocketDamaged callback)
+    public void AddOnDamageCallback(RocketDamage callback)
     {
         _damagedCallbacks+= callback;
-    }
-    public void AddRocketCriticalCallback(RocketCritical callback)
-    {
-        _criticalCallbacks+= callback;
-    }
+    }    
 
     public void AddNoLivesRemainingCallback(NoLivesRemaining callback)
     {
         _noLivesRemainingCallbacks += callback;
     }
 
+    
+
+
 	public void OnCollisionEnter2D(Collision2D other)
 	{
-	    var relativeSpeed = other.relativeVelocity.magnitude;
-	    if ( relativeSpeed> DamageVelocityThreshold)//Damage will be received
-	    {
-	        var damage = (relativeSpeed-DamageVelocityThreshold)/DamageScalingFactor;
+            var relativeSpeed = other.relativeVelocity.magnitude;
+	        var otherNormal = other.contacts[0].normal;
+	        var dirNorm= rigidbody2D.velocity.normalized;
+	        var angleScaleFactor=Mathf.Abs(Vector2.Dot(otherNormal,dirNorm));            
+            Debug.Log("Angle Scale Factor:"+angleScaleFactor);
+            var damage = relativeSpeed*angleScaleFactor*DamageScalingFactor;
+
 	        Health -= damage;
+	        Health = Health < 0 ? 0 : Health;//Ensure health never below 0
+
 	        if (Health <=0)
 	        {
                 LivesRemaining--;
@@ -85,13 +90,6 @@ public class RocketDamageSystem : MonoBehaviour {
 	                Health = 1;
 	            }	            	            
 	        }
-            else if (Health < 0.2f)
-            {
-                if (_criticalCallbacks != null)
-                {
-                    _criticalCallbacks(gameObject, damage, Health);
-                }
-            }
             else
             {
                 Debug.Log("Damage #"+damageCount+++": "+damage+", Health:"+Health);
@@ -100,17 +98,10 @@ public class RocketDamageSystem : MonoBehaviour {
                     _damagedCallbacks(gameObject, damage, Health);
                 }
             }
-	    }
+	 
 	}
 	
-	private void ResetPosition(GameObject rocket){
-		var checkpoint = _metrics.CurrentCheckpoint;		
-        Debug.Log("Respawning");
-		rigidbody2D.position=checkpoint.Location;
-		rigidbody2D.rotation=(checkpoint.Heading);
-        rigidbody2D.angularVelocity = 0;
-        rigidbody2D.velocity=new Vector2(0,0);	    
-	}
+	
 
 	
 }

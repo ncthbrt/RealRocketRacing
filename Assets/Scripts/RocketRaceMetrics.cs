@@ -85,5 +85,15 @@ namespace Assets.Scripts
             TotalTime += delta;
             LapTimes[LapCount] += delta;
         }
+
+        public void ToCurrentCheckpoint(GameObject rocket)
+        {
+            var checkpoint = CurrentCheckpoint;
+            Debug.Log("Respawning");
+            rigidbody2D.position = checkpoint.Location;
+            rigidbody2D.rotation = (checkpoint.Heading);
+            rigidbody2D.angularVelocity = 0;
+            rigidbody2D.velocity = new Vector2(0, 0);
+        }
     }
 }

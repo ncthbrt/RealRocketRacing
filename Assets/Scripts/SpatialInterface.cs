@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+
 namespace Assets.Scripts
 {
     public class SpatialInterface : MonoBehaviour
@@ -33,7 +34,7 @@ namespace Assets.Scripts
             Debug.Log("Lap Completed");
             _lapTime = lapTime;
             _opacity = 0;
-            LapCount.text = "Lap " + lapNumber;
+            LapCount.text = "Lap " + (lapNumber+1);
             if (LapSummaryTimeIn > 0)
             {
                 _deltaOpacityIn = Time.fixedDeltaTime/LapSummaryTimeIn;
@@ -50,8 +51,7 @@ namespace Assets.Scripts
             {
                 _deltaOpacityOut= 1;
             }
-            InvokeRepeating("LapEndIn",0,Time.fixedDeltaTime);
-       
+            InvokeRepeating("LapEndIn",0,Time.fixedDeltaTime);       
         }
 
         private float _opacity= 0;
@@ -77,7 +77,7 @@ namespace Assets.Scripts
             _opacity -= _deltaOpacityOut;
             if (_opacity <=0f)
             {
-                _opacity = -1;
+                _opacity = 0;
                 CancelInvoke("LapEndOut");
             }
         }
@@ -88,13 +88,18 @@ namespace Assets.Scripts
         void Update () {
         
             if (_opacity >=0)
-            {
+            {                
+
                 transform.position = _rocketTransform.position;
                 LapTime.text = StaticUtils.ToRaceTimeString(_lapLabelTime);
-                var opColor=new Color(0,1,0,_opacity);
+                var opColor=new Color(1,1,1,_opacity);
                 LapTime.color = opColor;
                 InfomaticLine.color = opColor;
                 LapCount.color = opColor;
+                if (_opacity == 0f)
+                {
+                    _opacity = -1;
+                }
             }
         }
     }
