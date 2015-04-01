@@ -7,7 +7,7 @@ namespace Assets.Scripts
         void Start () {		
             LivesRemaining = LivesAtStart;
             Health = 1f;
-        
+            Alive =true;
             _metrics = GetComponent<RocketRaceMetrics>();
         }
 
@@ -46,7 +46,14 @@ namespace Assets.Scripts
         public void AddOnDamageCallback(RocketDamage callback)
         {
             _damagedCallbacks+= callback;
-        }    
+        }
+
+        public bool Alive { get; private set; }
+        public void RespawnComplete()
+        {
+            Alive = true;
+        }
+
 
         public void AddNoLivesRemainingCallback(NoLivesRemaining callback)
         {
@@ -69,6 +76,7 @@ namespace Assets.Scripts
 
             if (Health <=0)
             {
+                Alive = false;
                 LivesRemaining--;
                 if (LivesRemaining == 0)
                 {
@@ -78,10 +86,10 @@ namespace Assets.Scripts
                     }
                 }
                 else
-                {    
-                
+                {                    
                     if (_respawnCallbacks != null)
                     {
+                        
                         _respawnCallbacks(gameObject,other);
                     }
                     Health = 1;

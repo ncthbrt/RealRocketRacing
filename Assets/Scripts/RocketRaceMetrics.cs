@@ -86,11 +86,11 @@ namespace Assets.Scripts
 
         public void ToCurrentCheckpoint()
         {
-            var checkpoint = CurrentCheckpoint;            
-            rigidbody2D.position = checkpoint.Location;
-            rigidbody2D.rotation = (checkpoint.Heading);
+            var checkpoint = CurrentCheckpoint;
+            rigidbody2D.rotation = (checkpoint.Heading);            
             rigidbody2D.angularVelocity = 0;
             rigidbody2D.velocity = new Vector2(0, 0);
+            rigidbody2D.position = checkpoint.Location;         
         }
     }
 }

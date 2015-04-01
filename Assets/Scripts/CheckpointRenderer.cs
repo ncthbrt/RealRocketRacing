@@ -12,6 +12,8 @@ namespace Assets.Scripts
         private const int VertexCount=50;
         public const int NumberOfPeriods = 10;
         public const float Amplitude = 0.18f;
+        public Color StartColor;
+        public Color EndColor;
         // Use this for initialization
         private LineRenderer _renderer;
     
@@ -22,8 +24,7 @@ namespace Assets.Scripts
             _renderer.SetWidth(0.05f,0.05f);
             _renderer.sortingLayerName = "Player";
             _renderer.sortingOrder =0;
-            _renderer.SetColors(new Color(1f, 1f, 1f, 0.5f), new Color(0.5f, 0.5f, 0.5f, 0.5f));
-                
+            _renderer.SetColors(StartColor,EndColor);                
             _material= new Material(Shader.Find("Particles/Additive"));
             _renderer.material =_material;
             _renderer.useWorldSpace = true;

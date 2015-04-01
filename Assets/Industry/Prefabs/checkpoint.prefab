@@ -267,6 +267,8 @@ MonoBehaviour:
   CurrentCamera: {fileID: 0}
   StartPoint: {fileID: 464252}
   EndPoint: {fileID: 464248}
+  StartColor: {r: 0, g: .875862122, b: 1, a: 1}
+  EndColor: {r: 0, g: .875862122, b: 1, a: .0862745121}
 --- !u!114 &11464250
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -298,10 +300,10 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayerID: 0
-  m_SortingOrder: 200
+  m_SortingLayerID: 3180873295
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300022, guid: 83877809b47a3b64fa25d8e40a442fce, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: .191176474, g: 1, b: .397565991, a: 1}
 --- !u!212 &21264250
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -320,10 +322,10 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayerID: 0
+  m_SortingLayerID: 3180873295
   m_SortingOrder: 200
   m_Sprite: {fileID: 21300022, guid: 83877809b47a3b64fa25d8e40a442fce, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: .191176474, g: 1, b: .397565991, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

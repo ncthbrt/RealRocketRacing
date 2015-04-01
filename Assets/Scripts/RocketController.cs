@@ -9,6 +9,8 @@ namespace Assets.Scripts
         public GameObject[] LeftThrusters;
         public GameObject[] RightThrusters;
         // Use this for initialization
+        
+        public bool ControlsEnabled { get; set; } 
 
         private bool _primaryThrusterOn=false;
         private bool _leftThrusterOn=false;
@@ -17,6 +19,11 @@ namespace Assets.Scripts
 
         private Rigidbody2D rigidbody2D;
 
+
+        void Start()
+        {
+            ControlsEnabled = true;
+        }
         void Awake()
         {
             rigidbody2D = GetComponent<Rigidbody2D>();
@@ -26,27 +33,30 @@ namespace Assets.Scripts
         void Update ()
         {
 
-            bool lastMain = _primaryThrusterOn;
-            bool lastLeft = _leftThrusterOn;
-            bool lastRight = _rightThrusterOn;
+            if (ControlsEnabled)
+            {
+                bool lastMain = _primaryThrusterOn;
+                bool lastLeft = _leftThrusterOn;
+                bool lastRight = _rightThrusterOn;
 
-            HandleControllerInput();       
+                HandleControllerInput();
 
-            if (lastMain^_primaryThrusterOn)
-            {         
-                ThrusterStateChange(_primaryThrusterOn,ThrusterGroup.PRIMARY);
+                if (lastMain ^ _primaryThrusterOn)
+                {
+                    ThrusterStateChange(_primaryThrusterOn, ThrusterGroup.PRIMARY);
+                }
+                if (lastLeft ^ _leftThrusterOn)
+                {
+                    ThrusterStateChange(_leftThrusterOn, ThrusterGroup.LEFT);
+                }
+                if (lastRight ^ _rightThrusterOn)
+                {
+                    ThrusterStateChange(_rightThrusterOn, ThrusterGroup.RIGHT);
+                }
             }
-            if (lastLeft^ _leftThrusterOn)
-            {         
-                ThrusterStateChange(_leftThrusterOn, ThrusterGroup.LEFT);
-            }
-            if (lastRight^ _rightThrusterOn)
-            {         
-                ThrusterStateChange(_rightThrusterOn, ThrusterGroup.RIGHT);
-            }        
         }
 
-        private enum ThrusterGroup
+        public enum ThrusterGroup
         {
             PRIMARY,
             LEFT,
@@ -184,18 +194,21 @@ namespace Assets.Scripts
 
         void FixedUpdate()
         {
-            if (_primaryThrusterOn)
-            {         
-                ApplyThrust(PrimaryThrusters);                        
+            if (ControlsEnabled)
+            {
+                if (_primaryThrusterOn)
+                {
+                    ApplyThrust(PrimaryThrusters);
+                }
+                if (_leftThrusterOn)
+                {
+                    ApplyThrust(LeftThrusters);
+                }
+                if (_rightThrusterOn)
+                {
+                    ApplyThrust(RightThrusters);
+                }
             }
-            if (_leftThrusterOn)
-            {         
-                ApplyThrust(LeftThrusters);            
-            }
-            if (_rightThrusterOn)
-            {         
-                ApplyThrust(RightThrusters);
-            }                
         }
     }
 }

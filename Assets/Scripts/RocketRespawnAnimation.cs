@@ -8,50 +8,63 @@ public class RocketRespawnAnimation : MonoBehaviour
     public PhysicalParticle2D Template;
     public Rigidbody2D RocketRigidbody2D;
     public RocketDamageSystem DamageSystem;
+    public RocketRaceMetrics Metrics;
     
+    public RocketController Controller;
+    public float AdditionalVelocity;
     private IList<PhysicalParticle2D> _particles;
-    public float SpawnRate;
-	// Use this for initialization
-	void Start () {
-	    DamageSystem.AddRespawnCallback(Respawn);    
-        _particles=new List<PhysicalParticle2D>();
+    
+
+    public Transform OffscreenGarage;
+    public int ParticleCount;
+    public float DecayTime;    
+    private const float Offset = 0.2f;
+    
+
+	void Start ()
+	{
+	    DecayTime= Metrics.RespawnTime;
+
+        _particles=new PhysicalParticle2D[ParticleCount];
+        for (int i = 0; i < _particles.Count; ++i)
+        {
+            _particles[i] = Instantiate(Template, Vector3.zero, Quaternion.identity) as PhysicalParticle2D;
+        }
+
+        DamageSystem.AddRespawnCallback(Respawn);    
 	}
 
     void Respawn(GameObject rocket,Collision2D collision)
     {
-        var normal = collision.contacts[0].normal;
-        var angle=(RocketRigidbody2D.rotation - 90)/180*Mathf.PI;
-        PolygonCollider2D polygonCollider=rocket.GetComponent<PolygonCollider2D>();
-
-        var bounds=polygonCollider.bounds;
-        var width=bounds.size.x;
-        var height=bounds.size.y;
-        var center = bounds.center;
-        var bottomLeft = (Vector2)center - new Vector2(width / 2, height / 2);
+        Debug.Log("Respawn");
         
-
-        for (int j = 0; j < height/Template.renderer.bounds.size.y; j++)
+        var rocketRigidbody = rocket.rigidbody2D;
+        var location = Vector2.Lerp(collision.contacts[0].point,rocketRigidbody.position,0.5f);
+        var rocketVelocity = rocketRigidbody.velocity;
+        Controller.ControlsEnabled = false;
+        
+        rocketRigidbody.velocity = Vector2.zero;
+        rocketRigidbody.angularVelocity = 0;
+        rocketRigidbody.rotation = 0;
+        rocketRigidbody.position = OffscreenGarage.position;
+        
+        foreach (var particle in _particles)
         {
-            for (int i = 0; i < width/Template.renderer.bounds.size.x; i++)
-            {
-                var particle = Instantiate(Template, Vector3.zero, Quaternion.identity) as PhysicalParticle2D;
-                var position = bottomLeft + new Vector2(Mathf.Cos(angle)*i*Template.renderer.bounds.size.x,Mathf.Sin(angle)*j*Template.renderer.bounds.size.y);
-                _particles.Add(particle);
-                particle.Reset(RocketRigidbody2D.velocity,position,0,0,0,1f);
-            }
+         
+            var velocity = rocketVelocity+ AdditionalVelocity*Random.insideUnitCircle;
+            particle.Reset(velocity,location+Random.insideUnitCircle*Random.value*Offset,180*Random.value,Random.value*20f-10f,Metrics.RespawnTime-DecayTime,DecayTime);
         }
-        rigidbody2D.velocity=(Vector2.zero);
-     //   rigidbody2D.position=new Vector2(-200,82);
-        rigidbody2D.angularVelocity = 0;
 
-        gameObject.SetActive(false);
-
+        
+        Invoke("RestorePosition",Metrics.RespawnTime);
     }
 
 
     void RestorePosition()
     {
-        
+        Controller.ControlsEnabled = true;
+        Metrics.ToCurrentCheckpoint();
+        DamageSystem.RespawnComplete();
     }
 	// Update is called once per frame
 	void Update () {

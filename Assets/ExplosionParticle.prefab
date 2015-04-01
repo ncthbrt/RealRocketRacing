@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21269672}
   - 50: {fileID: 5069672}
   - 114: {fileID: 11469672}
-  - 58: {fileID: 5869672}
+  - 60: {fileID: 6030720}
   m_Layer: 9
   m_Name: ExplosionParticle
   m_TagString: Effects
@@ -26,8 +26,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 169672}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.067976, y: 6.55427408, z: 0}
-  m_LocalScale: {x: 1.20000005, y: 1.20000005, z: 1.20000005}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -39,15 +39,15 @@ Rigidbody2D:
   m_GameObject: {fileID: 169672}
   m_Mass: .00999999978
   m_LinearDrag: 0
-  m_AngularDrag: .0500000007
+  m_AngularDrag: .0199999996
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
---- !u!58 &5869672
-CircleCollider2D:
+  m_CollisionDetection: 1
+--- !u!60 &6030720
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -55,8 +55,11 @@ CircleCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Radius: .0700000003
-  m_Center: {x: 0, y: 0}
+  m_Poly:
+    m_Paths:
+    - - {x: -.0163898468, y: .963899612}
+      - {x: -.971099854, y: -.946908951}
+      - {x: .971099854, y: -.946908951}
 --- !u!114 &11469672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -68,7 +71,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6f4662f9b4739346970bb38cfc6848d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseColor: {r: 1, g: 1, b: 1, a: .368627459}
+  StartColor: {r: 1, g: .0147058964, b: .687423646, a: 1}
+  EndColor: {r: 0, g: .875862122, b: 1, a: 1}
+  StartScale: .100000001
+  EndScale: .200000003
 --- !u!212 &21269672
 SpriteRenderer:
   m_ObjectHideFlags: 1
