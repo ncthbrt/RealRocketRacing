@@ -164,19 +164,16 @@ namespace Assets.Scripts
             }
         }
 
-        private void RocketRespawn(GameObject rocket)
+        private void RocketRespawn(GameObject rocket,Collision2D other)
         {
-            HealthRight.color = HealthBarStartColor;
-            HealthLeft.color = HealthBarStartColor;
-            HealthCenter.color = HealthBarStartColor;
-            HealthLeft.fillAmount = 1;
-            HealthRight.fillAmount = 1;
-            HealthCenter.fillAmount = 1;            
+            CancelInvoke("SetLife");
+            _currentHealth = 0f;
+            _nextHealth = 1f;
+            _progress = 0;
+            _delta =4* Time.fixedDeltaTime / Mathf.Abs((_nextHealth - _currentHealth) / MaxDeltaHealthPerSecond);            
             RemoveLife();
+            InvokeRepeating("SetLife", 0, Time.fixedDeltaTime);
         }
-
-
-        public delegate void Respawn(GameObject rocket);
 
         void LapComplete(GameObject rocket, TimeSpan lapTime, int lapNumber)
         {

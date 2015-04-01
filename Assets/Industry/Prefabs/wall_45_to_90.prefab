@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 405350}
   - 212: {fileID: 21205350}
   - 60: {fileID: 6005350}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wall_45_to_90
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayerID: 0
+  m_SortingLayerID: 3180873295
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300020, guid: 83877809b47a3b64fa25d8e40a442fce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

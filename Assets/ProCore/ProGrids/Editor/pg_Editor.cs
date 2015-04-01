@@ -106,7 +106,7 @@ public class pg_Editor : EditorWindow
 			if(RESET_PREFS_REQ)
 			{
 				pg_Preferences.ResetPrefs();
-				// Debug.Log("Resetting Prefs");
+				
 			}
 		}
 

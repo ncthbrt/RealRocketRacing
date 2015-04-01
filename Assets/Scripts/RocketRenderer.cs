@@ -16,7 +16,7 @@ namespace Assets.Scripts
             _renderer = GetComponent<SpriteRenderer>();
             _damageSystem.AddOnDamageCallback(RocketDamage);            
             _damageSystem.AddOnDamageCallback(RocketDamage);
-            _damageSystem.AddRespawnCallback(Respawn);
+          //  _damageSystem.AddRespawnCallback(Respawn);
         }
 
         private const float CriticalHealth = 0.2f;
@@ -31,9 +31,7 @@ namespace Assets.Scripts
             InvokeRepeating("ToWhite", DamageColorHold, Time.fixedDeltaTime);
         }
 
-        private Color _red=new Color(1,0,0);        
-        private Color _orange=new Color(1f,0.49f,0f);
-        private Color _black=new Color(0,0,0);
+        private Color _red=new Color(1,0,0);                
         private Color _currentColor;
 
         private float _progress=1f;
@@ -51,10 +49,7 @@ namespace Assets.Scripts
 
         
 
-        private void Respawn(GameObject rocket)
-        {
-            
-        }
+
 
 
 

@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 431612}
   - 60: {fileID: 6031612}
   - 212: {fileID: 21231612}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: girder_45_right_side
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayerID: 0
+  m_SortingLayerID: 3180873295
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300032, guid: 83877809b47a3b64fa25d8e40a442fce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

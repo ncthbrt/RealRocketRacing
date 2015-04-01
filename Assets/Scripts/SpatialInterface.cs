@@ -30,8 +30,7 @@ namespace Assets.Scripts
         private float _deltaOpacityIn;
         private float _deltaOpacityOut;
         private void LapComplete(GameObject rocket, TimeSpan lapTime, int lapNumber)
-        {
-            Debug.Log("Lap Completed");
+        {            
             _lapTime = lapTime;
             _opacity = 0;
             LapCount.text = "Lap " + (lapNumber+1);
@@ -77,7 +76,8 @@ namespace Assets.Scripts
             _opacity -= _deltaOpacityOut;
             if (_opacity <=0f)
             {
-                _opacity = 0;
+                _opacity = 0;                             
+                _lapLabelTime=TimeSpan.Zero;
                 CancelInvoke("LapEndOut");
             }
         }

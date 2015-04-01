@@ -12,7 +12,7 @@ namespace Assets.Scripts
             get; private set; 
         }
 
-        
+        public float RespawnTime = 4f;
         public TimeSpan TotalTime { get; private set; }
 
         public TimeSpan[] LapTimes { get; private set; }
@@ -55,15 +55,13 @@ namespace Assets.Scripts
             var checkpoint=other.GetComponentInParent<Checkpoint>();            
             if (checkpoint != null && (_currentCheckpoint == null || checkpoint.CheckpointID == _currentCheckpoint.CheckpointID + 1 || (_currentCheckpoint.CheckpointID == NumberOfCheckpoints - 1 && checkpoint.CheckpointID == 0)))
             {
-                _currentCheckpoint=checkpoint;            
-                Debug.Log("Current Checkpoint: "+_currentCheckpoint.CheckpointID);
+                _currentCheckpoint=checkpoint;                            
                 if(_currentCheckpoint.CheckpointID==0){//If the agent has completed a lap
                     
                     if (_lapCompleteCallbacks != null) { 
                         _lapCompleteCallbacks(gameObject,CurrentLapTime,LapCount);                                                
                     }
-                    ++LapCount;
-                    Debug.Log("Completed Lap");
+                    ++LapCount;                    
                 }else if(_passedCheckpointCallbacks!=null){
                     _passedCheckpointCallbacks(_currentCheckpoint,gameObject);
                 }
@@ -86,10 +84,9 @@ namespace Assets.Scripts
             LapTimes[LapCount] += delta;
         }
 
-        public void ToCurrentCheckpoint(GameObject rocket)
+        public void ToCurrentCheckpoint()
         {
-            var checkpoint = CurrentCheckpoint;
-            Debug.Log("Respawning");
+            var checkpoint = CurrentCheckpoint;            
             rigidbody2D.position = checkpoint.Location;
             rigidbody2D.rotation = (checkpoint.Heading);
             rigidbody2D.angularVelocity = 0;

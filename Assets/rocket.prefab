@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 475822}
   - 114: {fileID: 11475822}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: RightThruster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 475824}
   - 114: {fileID: 11475824}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: MainThruster1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 475826}
   - 114: {fileID: 11475826}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: LeftThruster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,10 +62,12 @@ GameObject:
   - 114: {fileID: 11475828}
   - 114: {fileID: 11463562}
   - 114: {fileID: 11489000}
-  m_Layer: 10
+  - 114: {fileID: 11437842}
+  - 114: {fileID: 11487242}
+  m_Layer: 11
   m_Name: rocket
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: Player
+  m_Icon: {fileID: 796366903, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -78,7 +80,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 475830}
   - 114: {fileID: 11475832}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: MainThruster3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +96,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 475832}
   - 114: {fileID: 11475834}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: MainThruster2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +146,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 175828}
   m_LocalRotation: {x: 0, y: 0, z: .923879564, w: -.382683396}
-  m_LocalPosition: {x: -0, y: 4, z: 0}
+  m_LocalPosition: {x: 8.13000011, y: -4.13000011, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 475824}
@@ -204,31 +206,42 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_Poly:
     m_Paths:
-    - - {x: .525257587, y: -1.07616568}
-      - {x: .554617882, y: -.907677472}
-      - {x: .65188998, y: -.759119451}
-      - {x: .606084287, y: -.641461849}
-      - {x: .719550252, y: -.631935477}
-      - {x: .714797318, y: -.711156249}
-      - {x: .847310662, y: -.724643469}
-      - {x: .848775923, y: -.276096135}
-      - {x: .725128055, y: -.280384421}
-      - {x: .715768814, y: -.380256295}
-      - {x: .531210303, y: -.393189311}
-      - {x: -.0147266388, y: 1.20027339}
-      - {x: -.0250000004, y: 1.21000004}
-      - {x: -.0221424699, y: 1.19178557}
-      - {x: -.550356865, y: -.378214389}
-      - {x: -.749643147, y: -.397500694}
-      - {x: -.750967979, y: -.274677396}
-      - {x: -.880357206, y: -.288364977}
-      - {x: -.894238591, y: -.715541184}
-      - {x: -.763282895, y: -.729573429}
-      - {x: -.733348429, y: -.632526457}
-      - {x: -.659879446, y: -.623392403}
-      - {x: -.70879811, y: -.765422523}
-      - {x: -.607830882, y: -.914105237}
-      - {x: -.558966458, y: -1.07150424}
+    - - {x: .530095458, y: -.924231291}
+      - {x: .643532336, y: -.755169332}
+      - {x: .593164802, y: -.624839425}
+      - {x: .700154066, y: -.628959358}
+      - {x: .73416692, y: -.7199561}
+      - {x: .846606314, y: -.726180017}
+      - {x: .859052002, y: -.294659615}
+      - {x: .709339678, y: -.296677291}
+      - {x: .704411864, y: -.417653948}
+      - {x: .514395654, y: -.398994714}
+      - {x: -.0203352049, y: 1.1432606}
+      - {x: -.588117599, y: -.421494067}
+      - {x: -.735802531, y: -.415188581}
+      - {x: -.737349689, y: -.331317186}
+      - {x: -.899713695, y: -.288745016}
+      - {x: -.891656995, y: -.720055521}
+      - {x: -.768928409, y: -.728049576}
+      - {x: -.728176117, y: -.630769253}
+      - {x: -.652165592, y: -.631185472}
+      - {x: -.65938282, y: -.743448794}
+      - {x: -.586702228, y: -.895397484}
+      - {x: -.56550318, y: -1.06684458}
+      - {x: .528746903, y: -1.07310188}
+--- !u!114 &11437842
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8309a7e9514e1e346bd1c8af49bd47d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageColorHold: 1
+  DamageColorExit: .300000012
 --- !u!114 &11463562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -237,9 +250,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 175828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fbf0c57cb5594474a7f51ed876ecda3, type: 3}
+  m_Script: {fileID: 11500000, guid: 471f8bac583f0b14a8a0ce5791f0f0ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RespawnTime: 4
+  NumberOfLaps: 3
   StartingCheckpoint: {fileID: 0}
   NumberOfCheckpoints: 9
 --- !u!114 &11475822
@@ -289,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fddaf93730a413a4ca89829689daab6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainThrusters:
+  PrimaryThrusters:
   - {fileID: 175824}
   - {fileID: 175832}
   - {fileID: 175830}
@@ -321,6 +336,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImpulsePerFixedUpdate: .00999999978
+--- !u!114 &11487242
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 070fa7fd83f9e2046aa8996c16926ff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftEdge: {fileID: 475832}
+  RightEdge: {fileID: 475830}
+  Controller: {fileID: 11475828}
+  RocketRigidbody2D: {fileID: 5075822}
+  Rate: 40
+  DecayTime: 1
+  Template: {fileID: 11454150, guid: 30047a6443c133647b8f8a41d35620c7, type: 2}
+  AngularVelocity: 30
+  AdditionalVelocity: 2
 --- !u!114 &11489000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -332,7 +367,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f45c06a9a0d34c899abfa5fe22dde98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxImpulseForce: 5
+  DamageScalingFactor: .0500000007
+  LivesAtStart: 3
 --- !u!212 &21275822
 SpriteRenderer:
   m_ObjectHideFlags: 1
