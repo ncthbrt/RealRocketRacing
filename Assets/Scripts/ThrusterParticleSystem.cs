@@ -49,7 +49,7 @@ namespace Assets.Scripts
             }
         }
 
-        private bool _thrust= false;
+        
 
         
 
@@ -74,7 +74,7 @@ namespace Assets.Scripts
             var start = Vector2.Lerp(LeftEdge.position, RightEdge.position, Random.Range(0.2f,0.8f));
 
             var velocity = RocketRigidbody2D.velocity;
-            var angle = (RocketRigidbody2D.rotation - 90f) / 180f * (Mathf.PI) + Random.Range(0, Mathf.PI * 0.5f) - Mathf.PI * 0.25f;
+            var angle = (RocketRigidbody2D.rotation - 90f) / 180f * (Mathf.PI) + Random.Range(0, Mathf.PI * 0.35f) - Mathf.PI * 0.35f/2;
             velocity+= (new Vector2(Mathf.Cos(angle),Mathf.Sin(angle)) * AdditionalVelocity);
                        
             _particles[_currentParticle++].Reset(velocity,start, Random.Range(0,180),Random.Range(0,10)-5, HoldTime, DecayTime);

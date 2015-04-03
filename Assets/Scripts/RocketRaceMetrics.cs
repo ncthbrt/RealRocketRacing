@@ -12,6 +12,21 @@ namespace Assets.Scripts
             get; private set; 
         }
 
+
+		private bool _running = false;
+		public void StartTimer(){
+			_running = true;
+		}
+
+		public void StopTimer(){
+			_running = false;
+		}
+		public bool TimerRunning {
+			get{
+				return _running;
+			}
+		}
+
         public float RespawnTime = 4f;
         public TimeSpan TotalTime { get; private set; }
 
@@ -45,8 +60,8 @@ namespace Assets.Scripts
             _lapCompleteCallbacks+=complete;
         }
 
-        public void AddPassedCheckpointCallback(PassedCheckpoint complete){
-            _passedCheckpointCallbacks+=complete;
+        public void AddPassedCheckpointCallback(PassedCheckpoint callback){
+            _passedCheckpointCallbacks+=callback;
         }
 
         void OnTriggerEnter2D(Collider2D other)
@@ -79,9 +94,11 @@ namespace Assets.Scripts
 	
         // Update is called once per frame
         void Update () {
-            var delta = TimeSpan.FromSeconds(Time.deltaTime);
-            TotalTime += delta;
-            LapTimes[LapCount] += delta;
+			if (_running) {
+				var delta = TimeSpan.FromSeconds (Time.deltaTime);
+				TotalTime += delta;
+				LapTimes [LapCount] += delta;
+			}
         }
 
         public void ToCurrentCheckpoint()

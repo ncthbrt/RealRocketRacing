@@ -5,7 +5,6 @@ namespace Assets.Scripts
     public class RocketDamageSystem : MonoBehaviour {
 	
         void Start () {		
-            LivesRemaining = LivesAtStart;
             Health = 1f;
             Alive =true;
             _metrics = GetComponent<RocketRaceMetrics>();
@@ -20,20 +19,18 @@ namespace Assets.Scripts
 
         void Update() { }
 
-        public int LivesAtStart= 3;
         public float Health { get; set; }
-        public int LivesRemaining { get; private set; }
+        
 
         public delegate void RocketDamage(GameObject rocket, float damage,float remainingHealth);    
 
         public delegate void Respawn(GameObject rocket,Collision2D other);
 
-    
-        public delegate void NoLivesRemaining(GameObject rocket);
+           
 
         private Respawn _respawnCallbacks;    
         private RocketDamage _damagedCallbacks;    
-        private NoLivesRemaining _noLivesRemainingCallbacks;
+   
     
 	
 
@@ -52,12 +49,7 @@ namespace Assets.Scripts
         public void RespawnComplete()
         {
             Alive = true;
-        }
-
-
-        public void AddNoLivesRemainingCallback(NoLivesRemaining callback)
-        {
-            _noLivesRemainingCallbacks += callback;
+			Health = 1f;
         }
 
     
@@ -77,33 +69,20 @@ namespace Assets.Scripts
             if (Health <=0)
             {
                 Alive = false;
-                LivesRemaining--;
-                if (LivesRemaining == 0)
-                {
-                    if (_noLivesRemainingCallbacks != null)
-                    {
-                        _noLivesRemainingCallbacks(gameObject);
-                    }
-                }
-                else
-                {                    
+
                     if (_respawnCallbacks != null)
                     {
                         
                         _respawnCallbacks(gameObject,other);
-                    }
-                    Health = 1;
-                }	            	            
+                    }           	            
             }
-            else
-            {                
-                if (_damagedCallbacks != null)
+            else if (_damagedCallbacks != null)
                 {
                     _damagedCallbacks(gameObject, damage, Health);
                 }
-            }
-	 
         }
+	 
+        
 	
 	
 

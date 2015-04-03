@@ -405,6 +405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DamageColorHold: 1
   DamageColorExit: .300000012
+  DamageColor: {r: 1, g: .451253504, b: 0, a: 1}
 --- !u!114 &11463562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -563,7 +564,7 @@ SpriteRenderer:
   m_SortingLayerID: 3562979535
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a1bebf914bff2f14c8b1f68461eae56d, type: 3}
-  m_Color: {r: 0, g: .875862122, b: 1, a: 1}
+  m_Color: {r: .0313725471, g: .781451762, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

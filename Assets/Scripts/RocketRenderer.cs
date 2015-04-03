@@ -35,7 +35,7 @@ namespace Assets.Scripts
             InvokeRepeating("ToWhite", DamageColorHold, Time.fixedDeltaTime);
         }
 
-        private Color DamageColor=new Color(1,0,0);                
+        public Color DamageColor=new Color(1,0,0);                
         private Color _currentColor;
         private Color _baseColor;
         private float _progress=1f;

@@ -22,7 +22,7 @@ namespace Assets.Scripts
 
         void Start()
         {
-            ControlsEnabled = true;
+            ControlsEnabled = false;
         }
         void Awake()
         {

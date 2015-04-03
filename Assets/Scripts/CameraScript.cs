@@ -8,6 +8,7 @@ namespace Assets.Scripts
         public Rigidbody2D Rocket;
         private float _prev;
         public RocketDamageSystem DamageSystem;
+		public float CollisionShakeTime=0.3f;
         public RocketRaceMetrics Metrics;
         public float ExponentialEasingFactor=0.25f;
         public float StartSize = 8;    
@@ -20,7 +21,8 @@ namespace Assets.Scripts
             _prev = 0;
             _invExpFactor = 1 - ExponentialEasingFactor;
             _sizeDelta = MaxSize - StartSize;
-            DamageSystem.AddRespawnCallback(StartShake);
+            DamageSystem.AddRespawnCallback(DestructionShake);
+			DamageSystem.AddOnDamageCallback (DamageShake);
         }
 
 
@@ -29,9 +31,19 @@ namespace Assets.Scripts
         {
             if (DamageSystem.Alive)
             {
+
+				Vector2 shakeOffset=Vector2.zero;
+				if(_shakeIntensity>0){
+					shakeOffset = Random.insideUnitSphere * _shakeIntensity;
+					transform.rotation= Quaternion.Euler(0, 0, _originalRotation + Random.Range(-_shakeIntensity, _shakeIntensity)*.2f);                    
+					_shakeIntensity -= _shakeDecay;
+				}
+
+
                 //Debug.Log("Framerate: " + 1f/Time.unscaledDeltaTime);
                 Vector2 delta = Rocket.position - new Vector2(transform.position.x, transform.position.y);
-                transform.Translate(delta);
+                transform.Translate(delta+shakeOffset);
+
                 var speed = Rocket.velocity.magnitude;
 
                 _prev = speed*ExponentialEasingFactor + _invExpFactor*_prev;
@@ -69,13 +81,28 @@ namespace Assets.Scripts
         private float _shakeDecay;
         
         private float _shakeIntensity;
-        private void StartShake(GameObject rocket,Collision2D other)
+
+
+		private void DamageShake(GameObject rocket, float damage,float remainingHealth){
+			StartShake (0.3f,CollisionShakeTime);
+		}
+
+
+		public void StartShake(float intensity,float time){
+			_shakeIntensity = intensity;
+			_shakeDecay = _shakeIntensity * Time.fixedDeltaTime / time;
+			_originalRotation = transform.rotation.z;
+		}
+
+		public void DestructionShake(GameObject rocket,Collision2D other){
+			StartLargeShake();
+		}
+        public void StartLargeShake()
         {
             _shakeIntensity = 0.6f;
             _shakeDecay= _shakeIntensity*Time.fixedDeltaTime/Metrics.RespawnTime;
             _originalLocation = transform.position;
             _originalRotation = transform.rotation.z;
-
         }
     }
 }

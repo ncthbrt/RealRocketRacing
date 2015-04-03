@@ -68,8 +68,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6f4662f9b4739346970bb38cfc6848d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartColor: {r: 1, g: .911764681, b: .972008109, a: 1}
-  EndColor: {r: 1, g: .0147058964, b: .687423646, a: .203921571}
+  StartColor: {r: 1, g: 0, b: .618384361, a: 1}
+  EndColor: {r: .0313725471, g: .781451762, b: 1, a: .0784313753}
   StartScale: .800000012
   EndScale: 3
 --- !u!212 &21218108

@@ -20,7 +20,7 @@ namespace Assets.Scripts
         private void Start()
         {
             _renderer = gameObject.AddComponent<LineRenderer>();        
-            _renderer.SetVertexCount(VertexCount*2);
+            _renderer.SetVertexCount(VertexCount*2+1);
             _renderer.SetWidth(0.05f,0.05f);
             _renderer.sortingLayerName = "Player";
             _renderer.sortingOrder =0;
@@ -61,7 +61,7 @@ namespace Assets.Scripts
                     float screenY = -x*Mathf.Sin(angle) + y*Mathf.Cos(angle) + StartPoint.position.y;
                     _renderer.SetPosition(i, new Vector3(screenX, screenY, StartPoint.position.z));
                 }
-                for (int i = VertexCount, j = VertexCount; i > 0; --i,++j)
+                for (int i = VertexCount, j = VertexCount; i >= 0; --i,++j)
                 {
                     float y = (Amplitude*Mathf.Sin(-(i + _progress*Mathf.PI)));
                     float x = (length/VertexCount)*i;

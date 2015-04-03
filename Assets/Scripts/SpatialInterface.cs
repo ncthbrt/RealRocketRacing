@@ -61,7 +61,7 @@ namespace Assets.Scripts
         
             _opacity += _deltaOpacityIn;
         
-            _lapLabelTime = new TimeSpan((long) Mathf.Lerp(0, _lapTime.Ticks,_opacity));
+            _lapLabelTime = new TimeSpan((long) Mathf.Lerp(TimeSpan.Zero.Ticks, _lapTime.Ticks,_opacity));
             if (_opacity >=1f)
             {
                 _opacity = 1f;
