@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &115240
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 415240}
-  m_Layer: 10
-  m_Name: spawn_point
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &164248
 GameObject:
   m_ObjectHideFlags: 1
@@ -112,18 +97,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &415240
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 115240}
-  m_LocalRotation: {x: 0, y: 0, z: -.707106888, w: .707106769}
-  m_LocalPosition: {x: 4.76837158e-07, y: -4.24264097, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 464254}
-  m_RootOrder: 3
 --- !u!4 &464248
 Transform:
   m_ObjectHideFlags: 1
@@ -166,14 +139,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 164254}
-  m_LocalRotation: {x: 0, y: 0, z: -.382683486, w: .923879564}
-  m_LocalPosition: {x: 8, y: 1, z: 1}
-  m_LocalScale: {x: .99999994, y: .99999994, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 53, y: 100.559998, z: 1}
+  m_LocalScale: {x: .999999881, y: .999999881, z: 1}
   m_Children:
   - {fileID: 464256}
   - {fileID: 464258}
   - {fileID: 464250}
-  - {fileID: 415240}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &464256
@@ -183,7 +155,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 164256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.370000005, y: -11.6800003, z: 0}
+  m_LocalPosition: {x: -.479999989, y: -11.6800003, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 464252}
@@ -196,7 +168,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 164258}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: -4.37113883e-08}
-  m_LocalPosition: {x: -.0270000007, y: 2.44499993, z: 0}
+  m_LocalPosition: {x: -.479999989, y: -6.42999983, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 464248}
@@ -251,8 +223,8 @@ EdgeCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Points:
-  - {x: -1.31578004, y: -2.43366372e-07}
-  - {x: 13.304163, y: -.360698044}
+  - {x: 7.57598829, y: -.489253432}
+  - {x: 13.3409729, y: -.476774871}
 --- !u!114 &11464248
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -267,8 +239,14 @@ MonoBehaviour:
   CurrentCamera: {fileID: 0}
   StartPoint: {fileID: 464252}
   EndPoint: {fileID: 464248}
-  StartColor: {r: .0313725471, g: .781451762, b: 1, a: 1}
-  EndColor: {r: .0313725471, g: .781451762, b: 1, a: .152941182}
+  NotAvailableCheckpointLeft: {r: 1, g: .451253504, b: 0, a: 1}
+  NotAvailableCheckpointRight: {r: 1, g: .635097504, b: 0, a: .227450982}
+  CurrentCheckpointLeft: {r: .37667805, g: 1, b: .192156851, a: 1}
+  CurrentCheckpointRight: {r: .192156851, g: 1, b: .65571022, a: .227450982}
+  NextCheckpointLeft: {r: .0313725471, g: .781451762, b: 1, a: 1}
+  NextCheckpointRight: {r: .0313725471, g: .554809153, b: 1, a: .227450982}
+  ColorTransitionTime: 1
+  Metrics: {fileID: 0}
 --- !u!114 &11464250
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -280,8 +258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ec4d7a2cefa874683fe0a47116ee0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CheckpointID: 0
-  SpawnPoint: {fileID: 415240}
+  CheckpointID: 4
+  TopVertex: {fileID: 464248}
+  BottomVertex: {fileID: 464252}
 --- !u!212 &21264248
 SpriteRenderer:
   m_ObjectHideFlags: 1

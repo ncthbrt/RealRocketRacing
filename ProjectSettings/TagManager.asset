@@ -4,6 +4,10 @@
 TagManager:
   tags:
   - Effects
+  - EnemySensors
+  - Fatal
+  - 
+  - EnenySensors
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -17,8 +21,8 @@ TagManager:
   User Layer 9: ParticleEffects
   User Layer 10: Walls
   User Layer 11: Player
-  User Layer 12: 
-  User Layer 13: 
+  User Layer 12: Enemy
+  User Layer 13: EnemySensor
   User Layer 14: 
   User Layer 15: 
   User Layer 16: 

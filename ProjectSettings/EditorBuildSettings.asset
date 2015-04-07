@@ -4,4 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/StartMenu/StartMenu.unity
+  - enabled: 1
+    path: Assets/StartMenu/Credits.unity
+  - enabled: 1
+    path: Assets/Industry/Industry.unity
+  - enabled: 1
+    path: Assets/StartMenu/Controls.unity
+  - enabled: 1
+    path: Assets/ScoreScreen.unity
