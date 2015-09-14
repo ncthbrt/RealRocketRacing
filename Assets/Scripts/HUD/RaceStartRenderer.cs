@@ -6,13 +6,13 @@ using RealRocketRacing.Rocket;
 namespace RealRocketRacing.Hud{
 	public class RaceStartRenderer : MonoBehaviour {
 		
-
+		public RocketRegistry Registry;
 		public Canvas Hud;
 		public CameraScript MainCameraScript;
-		public RocketController Controller;
-
+		public RocketController [] _controllers;
+		public RocketRaceMetrics [] _metrics;
 		public Image[] Numbers;
-		public RocketRaceMetrics Metrics;
+
 		private int _number=0;
 
 
@@ -22,6 +22,12 @@ namespace RealRocketRacing.Hud{
 		private Color[] _numberColors;
 
 		void Start () {
+			_controllers = new RocketController[Registry.Rockets.Length];
+			_metrics = new RocketRaceMetrics[Registry.Rockets.Length];
+			for(int i=0; i<_controllers.Length; ++i){
+				_controllers[i]=Registry.Rockets[i].GetComponent<RocketController>();
+				_metrics[i]=Registry.Rockets[i].GetComponent<RocketRaceMetrics>();
+			}
 			var fillAmount = 1f / Numbers.Length;
 			_numberColors = new Color[Numbers.Length];
 			for (int i=0; i<Numbers.Length; ++i) {
@@ -36,7 +42,9 @@ namespace RealRocketRacing.Hud{
 			_numberOpacity = 0f;
 			_number = -1;
 			Hud.enabled = false;
-			Controller.ControlsEnabled = false;
+			foreach (var controller in _controllers) {
+				controller.ControlsEnabled = false;
+			}
 			InvokeRepeating ("NextNumber", 2f, 0.5f);
 		}
 		private float _numberOpacity;
@@ -81,9 +89,13 @@ namespace RealRocketRacing.Hud{
 
 		public AudioSource SoundTrack;
 		private void StartRace(){
-			Controller.ControlsEnabled = true;
+			foreach (var controller in _controllers) {
+				controller.ControlsEnabled = true;
+			}
 			Hud.enabled=true;
-			Metrics.StartTimer();
+			foreach (var metric in _metrics) {
+				metric.StartTimer ();
+			}
 			SoundTrack.Play ();	
 
 			this.enabled=false;

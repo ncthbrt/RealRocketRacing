@@ -31,7 +31,7 @@ namespace RealRocketRacing.Rocket{
 	    void Respawn(GameObject rocket,Vector2 point)
 	    {
 	              
-	        var rocketRigidbody = rocket.rigidbody2D;
+	        var rocketRigidbody = rocket.GetComponent<Rigidbody2D>();
 	        var location = Vector2.Lerp(point,rocketRigidbody.position,0.5f);
 	        var rocketVelocity = rocketRigidbody.velocity;
 	        Controller.ControlsEnabled = false;

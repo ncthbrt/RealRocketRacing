@@ -84,7 +84,7 @@ namespace RealRocketRacing.Rocket
 
 	            var relativeSpeed = other.relativeVelocity.magnitude;
 	            var otherNormal = other.contacts[0].normal;
-	            var dirNorm= rigidbody2D.velocity.normalized;
+	            var dirNorm= GetComponent<Rigidbody2D>().velocity.normalized;
 	            var angleScaleFactor=Mathf.Abs(Vector2.Dot(otherNormal,dirNorm));                        
 	            var damage = relativeSpeed*angleScaleFactor*DamageScalingFactor;
 

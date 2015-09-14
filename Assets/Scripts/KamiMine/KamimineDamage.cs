@@ -25,7 +25,7 @@ namespace RealRocketRacing.Kamimine{
 			}
 		}	
 		private void DestroyKamimine(){
-			_explosionSystem.StartExplosion (rigidbody2D.velocity, rigidbody2D.position);
+			_explosionSystem.StartExplosion (GetComponent<Rigidbody2D>().velocity, GetComponent<Rigidbody2D>().position);
 			_stateMachine.State = KamimineState.Destroyed;	
 		}
 	}

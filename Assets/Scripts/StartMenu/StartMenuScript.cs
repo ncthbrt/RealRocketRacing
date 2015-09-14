@@ -8,7 +8,7 @@ public class StartMenuScript : MonoBehaviour {
 	
 
 		public void StartGame(){
-				Application.LoadLevel ("Industry");
+				Application.LoadLevel ("Loading");
 		}
 
 		public void Credits(){

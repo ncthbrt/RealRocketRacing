@@ -236,17 +236,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0c2228944e05c44d9c03b96901ba632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Registry: {fileID: 0}
   CurrentCamera: {fileID: 0}
   StartPoint: {fileID: 464252}
   EndPoint: {fileID: 464248}
   NotAvailableCheckpointLeft: {r: 1, g: .451253504, b: 0, a: 1}
   NotAvailableCheckpointRight: {r: 1, g: .635097504, b: 0, a: .227450982}
-  CurrentCheckpointLeft: {r: .37667805, g: 1, b: .192156851, a: 1}
-  CurrentCheckpointRight: {r: .192156851, g: 1, b: .65571022, a: .227450982}
-  NextCheckpointLeft: {r: .0313725471, g: .781451762, b: 1, a: 1}
-  NextCheckpointRight: {r: .0313725471, g: .554809153, b: 1, a: .227450982}
+  CurrentCheckpointLeft: {r: 1, g: 1, b: 1, a: 1}
+  CurrentCheckpointRight: {r: 1, g: 1, b: 1, a: .227450982}
+  NextCheckpointLeft: {r: 1, g: 1, b: 1, a: 1}
+  NextCheckpointRight: {r: 1, g: 1, b: 1, a: .227450982}
   ColorTransitionTime: 1
-  Metrics: {fileID: 0}
 --- !u!114 &11464250
 MonoBehaviour:
   m_ObjectHideFlags: 1

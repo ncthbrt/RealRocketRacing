@@ -7,141 +7,130 @@ using RealRocketRacing.Rocket;
 namespace RealRocketRacing.Hud
 {
     public class HudInterface : MonoBehaviour
-    {
-
-
-        public Text LapCountText;
-
-        public Text LapTimeText;
-
+    {				        
         public Text TotalTimeText;
+		public RocketRegistry Registry;
+        private RocketRaceMetrics _player1RaceMetrics;
+		private RocketDamageSystem _player1DamageSystem;
+		private RocketRaceMetrics _player2RaceMetrics;
+		private RocketDamageSystem _player2DamageSystem;
 
-        public RocketRaceMetrics RaceMetrics;
-        public RocketDamageSystem DamageSystem;
-
-        public Image HealthRight;
-        public Image HealthLeft;
-        public Image HealthCenter;
+        public Image Player1HealthBar;
+		public Image Player2HealthBar;                      
         
-        public Image BorderCenter;
-        public Image TemplateLife;
+
+
         public float MaxDeltaHealthPerSecond = 0.4f;
-               
-        public Color HealthBarStartColor;
-        public Color HealthBarEndColor;
+                       
         // Use this for initialization
         private void Start()
         {
         
-            RaceMetrics.AddLapCompleteCallback(LapComplete);
-            LapCountText.text = (RaceMetrics.LapCount + 1) + "/" + RaceMetrics.NumberOfLaps;
+			_player1RaceMetrics=Registry.Rockets [0].GetComponent<RocketRaceMetrics> ();
+			_player2RaceMetrics=Registry.Rockets [1].GetComponent<RocketRaceMetrics> ();
+			_player1DamageSystem=Registry.Rockets [0].GetComponent<RocketDamageSystem> ();
+			_player2DamageSystem=Registry.Rockets [1].GetComponent<RocketDamageSystem> ();
 
-            HealthRight.color = HealthBarStartColor;
-            HealthLeft.color = HealthBarStartColor;
-            HealthCenter.color = HealthBarStartColor;
-            DamageSystem.AddOnDamageCallback(RocketDamage);
-            DamageSystem.AddRespawnCallback(RocketRespawn);						                     
-            _currentHealth = 1;
+			Player1HealthBar.color = Registry.Rockets [0].GetComponent<SpriteRenderer>().color;
+			Player2HealthBar.color = Registry.Rockets [1].GetComponent<SpriteRenderer>().color;
+            
+            _player1DamageSystem.AddOnDamageCallback(RocketDamagePlayer1);
+            _player1DamageSystem.AddRespawnCallback(RocketRespawnPlayer1);						                     
+
+			_player2DamageSystem.AddOnDamageCallback(RocketDamagePlayer2);
+			_player2DamageSystem.AddRespawnCallback(RocketRespawnPlayer2);						                     
+            _currentHealthPlayer1 = 1;
+			_currentHealthPlayer2 = 1;
         }
 
-        private float _currentHealth;
-        private float _nextHealth;
-        private float _progress = 0;
-        private float _delta;
-        private void RocketDamage(GameObject rocket, float damage, float remainingHealth)
+        private float _currentHealthPlayer1;
+		private float _currentHealthPlayer2;
+        private float _nextHealthPlayer1;
+		private float _nextHealthPlayer2;
+        private float _progressPlayer1 = 0;
+		private float _progressPlayer2 = 0;
+        private float _deltaPlayer1;
+		private float _deltaPlayer2;
+       
+
+		private void RocketDamagePlayer1(GameObject rocket, float damage, float remainingHealth)
         {   
             CancelInvoke("SetLife");
-            _currentHealth = Mathf.Lerp(_currentHealth, _nextHealth, _progress);
-            _nextHealth = remainingHealth;
-            _progress = 0;
-            _delta = Time.fixedDeltaTime/Mathf.Abs((_nextHealth - _currentHealth) / MaxDeltaHealthPerSecond);
+            _currentHealthPlayer1 = Mathf.Lerp(_currentHealthPlayer1, _nextHealthPlayer1, _progressPlayer1);
+            _nextHealthPlayer1 = remainingHealth;
+            _progressPlayer1 = 0;
+            _deltaPlayer1 = Time.fixedDeltaTime/Mathf.Abs((_nextHealthPlayer1 - _currentHealthPlayer1) / MaxDeltaHealthPerSecond);
             
             InvokeRepeating("SetLife",0,Time.fixedDeltaTime);
         }
 
+		private void RocketDamagePlayer2(GameObject rocket, float damage, float remainingHealth)
+		{   
+			CancelInvoke("SetLife");
+			_currentHealthPlayer2 = Mathf.Lerp(_currentHealthPlayer2, _nextHealthPlayer2, _progressPlayer2);
+			_nextHealthPlayer2 = remainingHealth;
+			_progressPlayer2 = 0;
+			_deltaPlayer2 = Time.fixedDeltaTime/Mathf.Abs((_nextHealthPlayer2 - _currentHealthPlayer2) / MaxDeltaHealthPerSecond);
+			
+			InvokeRepeating("SetLife",0,Time.fixedDeltaTime);
+		}
+
         private void SetLife()
         {
-            _progress += _delta;
-            if (_progress > 1)
+            _progressPlayer1 += _deltaPlayer1;
+            if (_progressPlayer1 > 1)
             {
-                _progress = 1f;
-            }
-            var remainingHealth = Mathf.Lerp(_currentHealth, _nextHealth, _progress);
-            
-            Color healthBarColor = Color.Lerp(HealthBarEndColor, HealthBarStartColor,remainingHealth);
-
-            HealthRight.color = healthBarColor;
-            HealthLeft.color = healthBarColor;
-            HealthCenter.color = healthBarColor;
-
-        
-        
-
-            float healthLeftWidth = HealthLeft.GetPixelAdjustedRect().width;
-            float healthCenterWidth = HealthCenter.GetPixelAdjustedRect().width;
-            float healthRightWidth = HealthRight.GetPixelAdjustedRect().width;
-            float healthBarLength = healthLeftWidth + healthRightWidth + healthCenterWidth;
-
-            var healthBarStartRight = healthLeftWidth + healthCenterWidth;
-            var healthBarStartCenter = healthLeftWidth;
-
-            float remainingHealthBarLength = remainingHealth * healthBarLength;
-
-
-            float remainingRightLength = remainingHealthBarLength - healthBarStartRight;
-
-            if (remainingRightLength < 0)
-            {
-                remainingRightLength = 0;
+                _progressPlayer1 = 1f;
+				_deltaPlayer1=0;
             }
 
-            float remainingCenterLength = remainingHealthBarLength - healthBarStartCenter;
+			_progressPlayer2 += _deltaPlayer2;
+			if (_progressPlayer2 > 1)
+			{
+				_progressPlayer2 = 1f;
+				_deltaPlayer2=0;
+			}
 
-            if (remainingCenterLength > healthCenterWidth)
-            {
-                remainingCenterLength = healthCenterWidth;
-            }
-            else if (remainingCenterLength < 0)
-            {
-                remainingCenterLength = 0;
-            }
+            var remainingHealthP1 = Mathf.Lerp(_currentHealthPlayer1, _nextHealthPlayer1, _progressPlayer1);
+			var remainingHealthP2 = Mathf.Lerp(_currentHealthPlayer2, _nextHealthPlayer2, _progressPlayer2);
+			Player1HealthBar.fillAmount = remainingHealthP1;
+			Player2HealthBar.fillAmount = remainingHealthP2;
 
-            float remainingLeftLength = remainingHealthBarLength;
-            if (remainingLeftLength > healthLeftWidth)
+            if (_progressPlayer1 >= 1f)
             {
-                remainingLeftLength = healthLeftWidth;
+                _currentHealthPlayer1 = _nextHealthPlayer1;                
+             
             }
-
-            HealthLeft.fillAmount = remainingLeftLength / healthLeftWidth;
-            HealthRight.fillAmount = remainingRightLength / healthRightWidth;
-            HealthCenter.fillAmount = remainingCenterLength / healthCenterWidth;
-            if (_progress >= 1f)
-            {
-                _currentHealth = _nextHealth;                
-                CancelInvoke("SetLife");
-            }
+			if(_progressPlayer1>=1f && _progressPlayer2>=1f){
+				CancelInvoke("SetLife");
+			}
         }
 
-        private void RocketRespawn(GameObject rocket,Vector2 other)
+        private void RocketRespawnPlayer1(GameObject rocket,Vector2 other)
         {
             CancelInvoke("SetLife");
-            _currentHealth = 0f;
-            _nextHealth = 1f;
-            _progress = 0;
-            _delta =4* Time.fixedDeltaTime / Mathf.Abs((_nextHealth - _currentHealth) / MaxDeltaHealthPerSecond);            
+            _currentHealthPlayer1 = 0f;
+            _nextHealthPlayer1 = 1f;
+            _progressPlayer1 = 0;
+            _deltaPlayer1 =4* Time.fixedDeltaTime / Mathf.Abs((_nextHealthPlayer1 - _currentHealthPlayer1) / MaxDeltaHealthPerSecond);            
             InvokeRepeating("SetLife", 0, Time.fixedDeltaTime);
         }
 
-        void LapComplete(GameObject rocket, TimeSpan lapTime, int lapNumber)
-        {
-            LapCountText.text= (RaceMetrics.LapCount+2)+"/"+RaceMetrics.NumberOfLaps;
-        }
+		
+		private void RocketRespawnPlayer2(GameObject rocket,Vector2 other)
+		{
+			CancelInvoke("SetLife");
+			_currentHealthPlayer2 = 0f;
+			_nextHealthPlayer2 = 1f;
+			_progressPlayer2 = 0;
+			_deltaPlayer2 =4* Time.fixedDeltaTime / Mathf.Abs((_nextHealthPlayer2 - _currentHealthPlayer2) / MaxDeltaHealthPerSecond);            
+			InvokeRepeating("SetLife", 0, Time.fixedDeltaTime);
+		}
 
         // Update is called once per frame
         private void Update()
         {            
-            TotalTimeText.text = StaticUtils.ToRaceTimeString(RaceMetrics.TotalTime);
-            LapTimeText.text = StaticUtils.ToRaceTimeString(RaceMetrics.CurrentLapTime);            
+            TotalTimeText.text = StaticUtils.ToRaceTimeString(_player1RaceMetrics.TotalTime);            
         }
 
 

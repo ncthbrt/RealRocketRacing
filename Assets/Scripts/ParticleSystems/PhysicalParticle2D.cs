@@ -23,7 +23,7 @@ namespace RealRocketRacing.ParticleSystem
         public float StartScale;
         public float EndScale;
         // Use this for initialization
-        public void Reset(Vector2 velocity,Vector2 position,float rotation,float angularVelocity, float holdTime,float decayTime)
+        public void Reset(Vector2 velocity,Vector2 position,float rotation,float angularVelocity, float holdTime,float decayTime,Color startColor,Color endColor)
         {
             transform.position = position;
             gameObject.SetActive(true);
@@ -32,12 +32,12 @@ namespace RealRocketRacing.ParticleSystem
             _renderer.color = StartColor;
             _renderer.transform.localScale = new Vector3(StartScale, StartScale, StartScale);
             
-            rigidbody2D.rotation = rotation;
-            rigidbody2D.position = position;
+            GetComponent<Rigidbody2D>().rotation = rotation;
+            GetComponent<Rigidbody2D>().position = position;
             
-            rigidbody2D.velocity = velocity;
+            GetComponent<Rigidbody2D>().velocity = velocity;
             
-            rigidbody2D.angularVelocity = angularVelocity;                        
+            GetComponent<Rigidbody2D>().angularVelocity = angularVelocity;                        
 
             _decayRate = 1f/ decayTime;
             _health = 1f;            
@@ -53,10 +53,10 @@ namespace RealRocketRacing.ParticleSystem
                 
                 lock (this)
                 {
-                    var position = rigidbody2D.position;
+                    var position = GetComponent<Rigidbody2D>().position;
                     var scale = Mathf.Lerp(EndScale, StartScale, _health);
                     _renderer.transform.localScale = new Vector3(scale, scale, scale);
-                    rigidbody2D.position = position;
+                    GetComponent<Rigidbody2D>().position = position;
                 }
                 
                 var nextColor = Color.Lerp(EndColor, StartColor, _health);

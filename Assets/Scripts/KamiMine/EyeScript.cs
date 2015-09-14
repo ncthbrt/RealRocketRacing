@@ -28,7 +28,6 @@ namespace RealRocketRacing.Kamimine{
 				RandomEyeMovement ();
 			} else {
 				LookAt(_stateMachine.Rocket);
-
 			}			
 		}
 

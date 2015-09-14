@@ -364,8 +364,8 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 175828}
   m_Mass: 1.20000005
-  m_LinearDrag: 0
-  m_AngularDrag: .100000001
+  m_LinearDrag: .200000003
+  m_AngularDrag: .200000003
   m_GravityScale: 1
   m_FixedAngle: 0
   m_IsKinematic: 0
@@ -787,6 +787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fddaf93730a413a4ca89829689daab6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RocketPlayer: 0
   PrimaryThrusters:
   - {fileID: 175824}
   - {fileID: 175832}

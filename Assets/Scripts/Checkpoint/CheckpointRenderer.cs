@@ -4,7 +4,8 @@ namespace RealRocketRacing.RaceCheckpoints
 {
     public class CheckpointRenderer : MonoBehaviour
     {
-
+		public RocketRegistry Registry;
+		bool StartingCheckPoint;
         public Camera CurrentCamera;
         public Transform StartPoint;
         public Transform EndPoint;
@@ -26,7 +27,6 @@ namespace RealRocketRacing.RaceCheckpoints
 
 		public float ColorTransitionTime;
 
-		public RocketRaceMetrics Metrics;
 	
 
 		private Color _currentColorLeft;
@@ -41,6 +41,7 @@ namespace RealRocketRacing.RaceCheckpoints
 		private float _colorTransitionDelta;
         private void Start()
         {
+
             _renderer = gameObject.AddComponent<LineRenderer>();        
             _renderer.SetVertexCount(VertexCount*2+1);
             _renderer.SetWidth(0.05f,0.05f);
@@ -49,10 +50,12 @@ namespace RealRocketRacing.RaceCheckpoints
 			_transitionProgress = 0;
 			_thisCheckpoint = GetComponent<Checkpoint> ();
 
-			if (_thisCheckpoint == Metrics.CurrentCheckpoint) {
+			var metrics = Registry.Rockets [0].GetComponent<RocketRaceMetrics> ();
+
+			if (_thisCheckpoint == metrics.CurrentCheckpoint) {
 				_currentColorLeft=CurrentCheckpointLeft;
 				_currentColorRight=CurrentCheckpointRight;
-			} else if (_thisCheckpoint.CheckpointID == (Metrics.CurrentCheckpoint.CheckpointID + 1) % Metrics.NumberOfCheckpoints) {
+			} else if (_thisCheckpoint.CheckpointID == (metrics.CurrentCheckpoint.CheckpointID + 1) % metrics.NumberOfCheckpoints) {
 				_currentColorLeft=NextCheckpointLeft;
 				_currentColorRight=NextCheckpointRight;
 			} else {
@@ -65,23 +68,30 @@ namespace RealRocketRacing.RaceCheckpoints
 
 			_colorTransitionDelta = Time.fixedDeltaTime/ColorTransitionTime;
 
-			Metrics.AddPassedCheckpointCallback (PassedCheckpoint);
+			for (int i=0; i<Registry.Rockets.Length; ++i) {
+				Registry.Rockets[i].GetComponent<RocketRaceMetrics>().AddPassedCheckpointCallback (PassedCheckpoint);
+			}
 			            
             _material= new Material(Shader.Find("Particles/Additive"));
             _renderer.material =_material;
             _renderer.useWorldSpace = true;
         }
 
-		private void PassedCheckpoint(Checkpoint checkpoint, GameObject rocket){
+		private void PassedCheckpoint(Checkpoint checkpoint, GameObject rocket)
+		{
+			Debug.Log ("Passed checkpoint");
 			CancelInvoke ("Transition");
 			_currentColorLeft = Color.Lerp (_currentColorLeft, _nextColorLeft, _transitionProgress);
 			_currentColorRight = Color.Lerp (_currentColorRight, _currentColorLeft, _transitionProgress);
-		
+
+			var renderer = rocket.GetComponent<SpriteRenderer> ();
+			var rocketColor = renderer.color;
+			var metrics = rocket.GetComponent<RocketRaceMetrics> ();
 			_transitionProgress = 0;
-			if (checkpoint.CheckpointID == _thisCheckpoint.CheckpointID) {
-				_nextColorLeft=CurrentCheckpointLeft;
-				_nextColorRight=CurrentCheckpointRight;			
-			} else if (_thisCheckpoint.CheckpointID ==(checkpoint.CheckpointID + 1) % Metrics.NumberOfCheckpoints) {
+			if (checkpoint.CheckpointID == _thisCheckpoint.CheckpointID){
+				_nextColorLeft=rocketColor;
+				_nextColorRight=rocketColor;			
+			} else if (_thisCheckpoint.CheckpointID ==(checkpoint.CheckpointID + 1) % metrics.NumberOfCheckpoints) {
 				_nextColorLeft=NextCheckpointLeft;
 				_nextColorRight=NextCheckpointRight;
 			} else {

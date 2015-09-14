@@ -87,11 +87,11 @@ namespace RealRocketRacing.Kamimine{
 			}
 			var offset = Random.insideUnitCircle * shakeIntensity;
 
-			rigidbody2D.position = rigidbody2D.position + offset;
+			GetComponent<Rigidbody2D>().position = GetComponent<Rigidbody2D>().position + offset;
 			Sensor.localPosition=-offset;
 			var angleOffset = Random.Range (-shakeIntensity, shakeIntensity) * .2f;
 
-			transform.rotation= Quaternion.Euler(0, 0, rigidbody2D.rotation + angleOffset);
+			transform.rotation= Quaternion.Euler(0, 0, GetComponent<Rigidbody2D>().rotation + angleOffset);
 			Sensor.localEulerAngles+=new Vector3(0, 0, angleOffset);
 		}
 			

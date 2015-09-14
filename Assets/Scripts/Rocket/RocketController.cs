@@ -4,6 +4,9 @@ using UnityEngine;
 namespace RealRocketRacing.Rocket
 {
     public class RocketController : MonoBehaviour {
+		public enum Players{Player1,Player2};
+
+		public Players RocketPlayer=Players.Player1;
 
         public GameObject[] PrimaryThrusters;
         public GameObject[] LeftThrusters;
@@ -15,16 +18,35 @@ namespace RealRocketRacing.Rocket
         private bool _primaryThrusterOn=false;
         private bool _leftThrusterOn=false;
         private bool _rightThrusterOn=false;
+
+
+		private string _up = "up";
+		private string _left = "left";
+		private string _right  = "right";
+		
+		private string _thrustButton = "Fire1";
+		private string _steeringAxis = "Horizontal";
     		       
 
 
         void Start()
         {        
+
+			if (RocketPlayer == Players.Player2) {
+				_up="w";
+				_right="d";
+				_left="a";
+				_thrustButton="Player2Fire1";
+				_steeringAxis="Player2Horizontal";
+			}
         }        
 
         // Update is called once per frame
         void Update ()
         {
+			if (Input.GetKey ("r")) {
+				Application.LoadLevel("Loading");
+			}
 
             if (ControlsEnabled)
             {
@@ -102,33 +124,26 @@ namespace RealRocketRacing.Rocket
 		public float AxisThreshold=0.3f;
         void HandleControllerInput()
         {
-			if (!_primaryThrusterOn && (Input.GetKey("up")|| Input.GetButton("Fire1")))
-		    {
-                _primaryThrusterOn = true;
-            }
-			else if (_primaryThrusterOn && (!Input.GetKey("up") && !Input.GetButton("Fire1")))
-	         	{
-                _primaryThrusterOn = false;            
-            }
+
+				if (!_primaryThrusterOn && (Input.GetKey (_up) || Input.GetButton (_thrustButton))) {
+					_primaryThrusterOn = true;
+			} else if (_primaryThrusterOn && (!Input.GetKey (_up) && !Input.GetButton (_thrustButton))) {
+					_primaryThrusterOn = false;            
+				}
 
 
-            if (!_leftThrusterOn && (Input.GetKey("right")|| Input.GetAxis("Horizontal")>=AxisThreshold))
-            {
-                _leftThrusterOn = true;
-            }
-			else if (_leftThrusterOn && !Input.GetKey("right") && Input.GetAxis("Horizontal")<AxisThreshold)
-			{
-				_leftThrusterOn = false;            
-            }
+				if (!_leftThrusterOn && (Input.GetKey (_right) || Input.GetAxis (_steeringAxis) >= AxisThreshold)) {
+						_leftThrusterOn = true;
+				} else if (_leftThrusterOn && !Input.GetKey (_right) && Input.GetAxis (_steeringAxis) < AxisThreshold) {
+						_leftThrusterOn = false;            
+				}
 
-			if (!_rightThrusterOn && (Input.GetKey("left")|| Input.GetAxis("Horizontal")<=-AxisThreshold))
-			    {
-                _rightThrusterOn = true;            
-            }
-			else if (_rightThrusterOn && (!Input.GetKey("left")&& Input.GetAxis("Horizontal")>-AxisThreshold))
-			{
-				_rightThrusterOn = false;            
-            }
+				if (!_rightThrusterOn && (Input.GetKey (_left) || Input.GetAxis (_steeringAxis) <= -AxisThreshold)) {
+					_rightThrusterOn = true;            
+				} else if (_rightThrusterOn && (!Input.GetKey (_left) && Input.GetAxis (_steeringAxis) > -AxisThreshold)) {
+						_rightThrusterOn = false;            
+				}
+			
         }
 
 
@@ -181,10 +196,12 @@ namespace RealRocketRacing.Rocket
                 ThrusterPhysics thrusterPhysicsScript = thruster.GetComponent<ThrusterPhysics>();
                 if (thrusterPhysicsScript != null)
                 {
-                    thrusterPhysicsScript.ApplyThrust(rigidbody2D);
+                    thrusterPhysicsScript.ApplyThrust(GetComponent<Rigidbody2D>());
                 }
             }        
         }
+
+
 
 
         void FixedUpdate()

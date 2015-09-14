@@ -5,10 +5,11 @@ public class KamimineStateMachine : MonoBehaviour {
 		private Vector2 _startingPosition;
 		private float _startingRotation;
 		public float RespawnTime;
+
 		public void Reset(){
 			Rocket = null;
-			_startingPosition = rigidbody2D.position;
-			_startingRotation=rigidbody2D.rotation;
+			GetComponent<Rigidbody2D>().position=_startingPosition;
+			GetComponent<Rigidbody2D>().rotation = _startingRotation;
 			_periodCount = 0;
 			State = KamimineState.Searching;
 		}
@@ -40,10 +41,10 @@ public class KamimineStateMachine : MonoBehaviour {
 						Invoke("ToRevival",RespawnTime);
 					}else if(value==RealRocketRacing.Kamimine.KamimineState.Reviving){
 						gameObject.SetActive(true);
-						rigidbody2D.velocity = Vector2.zero;
-						rigidbody2D.angularVelocity = 0;						
-						rigidbody2D.position = _startingPosition;
-						rigidbody2D.rotation = _startingRotation;
+						GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+						GetComponent<Rigidbody2D>().angularVelocity = 0;						
+						GetComponent<Rigidbody2D>().position = _startingPosition;
+						GetComponent<Rigidbody2D>().rotation = _startingRotation;
 						State=KamimineState.Watching;
 					}
 		         	else{
@@ -131,6 +132,9 @@ public class KamimineStateMachine : MonoBehaviour {
 		// Use this for initialization
 		void Start () {
 			KamimineAnimator = GetComponentInChildren<Animator> ();
+			_startingPosition = GetComponent<Rigidbody2D>().position;
+			_startingRotation=GetComponent<Rigidbody2D>().rotation;
+
 		}
 	
 	}

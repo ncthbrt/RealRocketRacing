@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using RealRocketRacing.Rocket;
+using UnityEngine.UI;
 using System;
 namespace RealRocketRacing{
 public class TimeSummaryScreenScript : MonoBehaviour {
 
-
+	public Image Background;
 	// Use this for initialization
 	void Start () {
 		var textComponent=GetComponent<UnityEngine.UI.Text> ();
@@ -17,9 +18,9 @@ public class TimeSummaryScreenScript : MonoBehaviour {
 					bestLapTime=time;
 				}
 			}
-		textComponent.text = "Your time: " + StaticUtils.ToRaceTimeString (metrics.TotalTime) + "\n\n"
-				+ "Your best lap time was: " + StaticUtils.ToRaceTimeString (bestLapTime);
-
+		var color = rocket.GetComponent<SpriteRenderer> ().color;
+		Background.color = color;
+		textComponent.text = StaticUtils.ToRaceTimeString (metrics.TotalTime);
 		Destroy (rocket);
 	}
 	

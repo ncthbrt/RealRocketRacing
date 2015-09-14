@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using RealRocketRacing.Rocket;
-
+using RealRocketRacing.RaceCheckpoints;
 namespace RealRocketRacing.Hud
 {
     public class SpatialInterface : MonoBehaviour
@@ -18,21 +18,37 @@ namespace RealRocketRacing.Hud
         public GameObject Rocket;
         private RocketRaceMetrics _metrics;
         private Transform _rocketTransform;
+		private TimeSpan _lastTime;
         // Use this for initialization
         private void Start()
         {
-            _metrics = Rocket.GetComponent<RocketRaceMetrics>();
-            _rocketTransform = Rocket.transform;
-            _metrics.AddLapCompleteCallback(LapComplete);
+			if (Rocket != null) {
+
+				_UIColor=Rocket.GetComponent<SpriteRenderer>().color;
+				_metrics = Rocket.GetComponent<RocketRaceMetrics> ();
+				_lastTime=_metrics.CurrentLapTime;
+				_rocketTransform = Rocket.transform;
+				_metrics.AddPassedCheckpointCallback (PassedCheckpoint);
+
+			} else {
+				gameObject.SetActive(false);
+			}
         }
 
         private float _deltaOpacityIn;
         private float _deltaOpacityOut;
-        private void LapComplete(GameObject rocket, TimeSpan lapTime, int lapNumber)
-        {            
-            _lapTime = lapTime;
+		private void PassedCheckpoint(Checkpoint checkpoint, GameObject rocket)
+        {   
+
+			if (_metrics.CurrentLapTime < _lastTime) {
+				_lapTime = _metrics.CurrentLapTime;
+			} else {
+				_lapTime = _metrics.CurrentLapTime - _lastTime;
+			}
+			_lastTime = _metrics.CurrentLapTime;
+
             _opacity = 0;
-            LapCount.text = "Lap " + (lapNumber+1);
+            LapCount.text = "Checkpoint " + (checkpoint.CheckpointID)+"/"+(_metrics.NumberOfCheckpoints-1);
             if (LapSummaryTimeIn > 0)
             {
                 _deltaOpacityIn = Time.fixedDeltaTime/LapSummaryTimeIn;
@@ -49,13 +65,13 @@ namespace RealRocketRacing.Hud
             {
                 _deltaOpacityOut= 1;
             }
-            InvokeRepeating("LapEndIn",0,Time.fixedDeltaTime);       
+			InvokeRepeating("PassedCheckpointEndIn",0,Time.fixedDeltaTime);       
         }
 
         private float _opacity= 0;
         private TimeSpan _lapTime;
         private TimeSpan _lapLabelTime;//The label is what is display in the interface
-        private void LapEndIn()
+        private void PassedCheckpointEndIn()
         {
         
             _opacity += _deltaOpacityIn;
@@ -65,12 +81,12 @@ namespace RealRocketRacing.Hud
             {
                 _opacity = 1f;
                 _lapLabelTime = _lapTime;
-                CancelInvoke("LapEndIn"); 
-                InvokeRepeating("LapEndOut", LapSummaryHoldTime, Time.fixedDeltaTime);
+				CancelInvoke("PassedCheckpointEndIn"); 
+				InvokeRepeating("PassedCheckpointEndOut", LapSummaryHoldTime, Time.fixedDeltaTime);
             }
         }
 
-        private void LapEndOut()
+        private void PassedCheckpointEndOut()
         {        
             _opacity -= _deltaOpacityOut;
             if (_opacity <=0f)
@@ -82,16 +98,15 @@ namespace RealRocketRacing.Hud
         }
 
 
-		public Color UIColor;
+		public Color _UIColor;
 // Update is called once per frame
         void Update () {
         
             if (_opacity >=0)
             {                
-
                 transform.position = _rocketTransform.position;
                 LapTime.text = StaticUtils.ToRaceTimeString(_lapLabelTime);
-				Color opColor=Color.Lerp(Color.clear,this.UIColor,_opacity);
+				Color opColor=Color.Lerp(Color.clear,this._UIColor,_opacity);
 				LapTime.color = opColor;
                 InfomaticLine.color = opColor;
                 LapCount.color = opColor;

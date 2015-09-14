@@ -102,10 +102,11 @@ namespace RealRocketRacing.Rocket
 			AddLapCompleteCallback (TrackComplete);
         }
 		private void TrackComplete(GameObject rocket,TimeSpan lapTime,int lapNumber){
+			DontDestroyOnLoad(gameObject);
 			if (lapNumber == NumberOfLaps - 1) {
 				Application.LoadLevel("ScoreScreen");
 			}
-		}
+		}	
         // Update is called once per frame
         void Update () {
 			if (_running) {
@@ -117,12 +118,12 @@ namespace RealRocketRacing.Rocket
 
         public void ToCurrentCheckpoint()
         {
-			DontDestroyOnLoad(gameObject);
+
 			var checkpoint = CurrentCheckpoint;
-            rigidbody2D.rotation = (checkpoint.Heading);            
-            rigidbody2D.angularVelocity = 0;
-            rigidbody2D.velocity =  Vector2.zero;
-            rigidbody2D.position = checkpoint.Location;         
+            GetComponent<Rigidbody2D>().rotation = (checkpoint.Heading);            
+            GetComponent<Rigidbody2D>().angularVelocity = 0;
+            GetComponent<Rigidbody2D>().velocity =  Vector2.zero;
+            GetComponent<Rigidbody2D>().position = checkpoint.Location;         
         }
     }
 }
