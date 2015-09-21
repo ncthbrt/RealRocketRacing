@@ -48,7 +48,7 @@ namespace RealRocketRacing.RRRCamera
 
 			Vector2 averagePosition=new Vector2();
 			float maxSpeed = 0;
-			Vector2 max = new Vector2 ();
+			Vector2 max = new Vector2 (float.NegativeInfinity,float.NegativeInfinity);
 			Vector2 min = new Vector2 (float.PositiveInfinity, float.PositiveInfinity);
 
 			int aliveCount = 0;
@@ -83,7 +83,7 @@ namespace RealRocketRacing.RRRCamera
 
 				Vector2 deltaExtremes = max - min;
 				float reqH = deltaExtremes.x / _aspect;
-				reqH = reqH < deltaExtremes.y ? deltaExtremes.x : reqH;
+				reqH = Mathf.Max(deltaExtremes.y,reqH);
 
 
 				averagePosition /= aliveCount;

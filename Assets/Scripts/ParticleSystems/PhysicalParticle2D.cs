@@ -27,7 +27,10 @@ namespace RealRocketRacing.ParticleSystem
         {
             transform.position = position;
             gameObject.SetActive(true);
-            
+
+			StartColor = startColor;
+			EndColor = endColor;
+
             _renderer = GetComponent<SpriteRenderer>();
             _renderer.color = StartColor;
             _renderer.transform.localScale = new Vector3(StartScale, StartScale, StartScale);

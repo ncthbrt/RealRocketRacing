@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using  RealRocketRacing.Rocket;
+
 namespace RealRocketRacing.ParticleSystem{
 	public class ExplosionParticleSystem : MonoBehaviour {
 
@@ -13,10 +15,12 @@ namespace RealRocketRacing.ParticleSystem{
 		// Use this for initialization
 		void Start () {
 			Setup ();
-		}
+            _palette = GetComponent<RocketPalette>();
+        }
 
 		public void Setup(){
-			_particles=new PhysicalParticle2D[Mathf.CeilToInt(Intensity*MaxParticleDecayTime)];
+            
+            _particles =new PhysicalParticle2D[Mathf.CeilToInt(Intensity*MaxParticleDecayTime)];
 			for (int i = 0; i < _particles.Count; ++i)
 			{
 				_particles[i] = Instantiate(Template, Vector3.zero, Quaternion.identity) as PhysicalParticle2D;
@@ -37,9 +41,14 @@ namespace RealRocketRacing.ParticleSystem{
 		public float ParticleHoldTime;
 		public float MinParticleDecayTime;
 		public float MaxAngularVelocity;
-
+		private Color _endColor;
+	    private RocketPalette _palette;
 		public void StartExplosion(Vector2 velocity, Vector2 spawnPoint){
 			gameObject.SetActive (true);
+
+            
+            _endColor = _palette.AccentColor;
+                        
 			_spawnRate = Intensity;
 			_velocity = velocity;
 			_spawnPoint = spawnPoint;
@@ -63,7 +72,7 @@ namespace RealRocketRacing.ParticleSystem{
 			} else {
 				for(int i=0; i<spawnCount; ++i){
 					var velocity = _velocity+ ParticleVelocity*Random.insideUnitCircle;
-					_particles[_particleNo++].Reset(velocity,_spawnPoint+Random.insideUnitCircle*Random.value*PositionVarience,360*Random.value,Random.value*MaxAngularVelocity*2-MaxAngularVelocity,ParticleHoldTime,Random.Range(MinParticleDecayTime,MaxParticleDecayTime));
+					_particles[_particleNo++].Reset(velocity,_spawnPoint+Random.insideUnitCircle*Random.value*PositionVarience,360*Random.value,Random.value*MaxAngularVelocity*2-MaxAngularVelocity,ParticleHoldTime,Random.Range(MinParticleDecayTime,MaxParticleDecayTime),_endColor,_endColor);
 					_particleNo=_particleNo%_particles.Count;
 				}
 			}

@@ -84,8 +84,8 @@ namespace RealRocketRacing.RaceCheckpoints
 			_currentColorLeft = Color.Lerp (_currentColorLeft, _nextColorLeft, _transitionProgress);
 			_currentColorRight = Color.Lerp (_currentColorRight, _currentColorLeft, _transitionProgress);
 
-			var renderer = rocket.GetComponent<SpriteRenderer> ();
-			var rocketColor = renderer.color;
+			var renderer = rocket.GetComponent<RocketPalette> ();
+			var rocketColor = renderer.BaseColor;
 			var metrics = rocket.GetComponent<RocketRaceMetrics> ();
 			_transitionProgress = 0;
 			if (checkpoint.CheckpointID == _thisCheckpoint.CheckpointID){

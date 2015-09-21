@@ -23,10 +23,17 @@ namespace RealRocketRacing.ParticleSystem
         public float AdditionalVelocity = 4f;
 		public float MaxAngle=0f;
 		public float _maxAngleRads=0f;
-
+		private Color _startColor,_endColor;
         private int _currentParticle = 0;
         // Use this for initialization
-        void Start () {
+        void Start ()
+        {
+            var palette=GetComponentInParent< RocketPalette>();
+            _startColor = palette.AccentColor;
+
+            _endColor = palette.BaseColor;
+            _endColor.a = 0.0f;
+
 			_maxAngleRads = MaxAngle / 180 * Mathf.PI;
 	        _particles=new PhysicalParticle2D[Mathf.CeilToInt(Rate*DecayTime)];
             switch (ThrusterGroup)
@@ -79,7 +86,7 @@ namespace RealRocketRacing.ParticleSystem
             var angle = (RocketRigidbody2D.rotation - 90f) / 180f * (Mathf.PI) + Random.Range(0, _maxAngleRads) - Mathf.PI * _maxAngleRads/2f;
             velocity+= (new Vector2(Mathf.Cos(angle),Mathf.Sin(angle)) * AdditionalVelocity);
                        
-            _particles[_currentParticle++].Reset(velocity,start, Random.Range(0,180),Random.Range(0,10)-5, HoldTime, DecayTime);
+            _particles[_currentParticle++].Reset(velocity,start, Random.Range(0,180),Random.Range(0,10)-5, HoldTime, DecayTime,_startColor,_endColor);
 
             _currentParticle = _currentParticle%_particles.Count;            
         }

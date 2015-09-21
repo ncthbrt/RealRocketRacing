@@ -18,7 +18,7 @@ public class TimeSummaryScreenScript : MonoBehaviour {
 					bestLapTime=time;
 				}
 			}
-		var color = rocket.GetComponent<SpriteRenderer> ().color;
+		var color = rocket.GetComponent<RocketPalette> ().BaseColor;
 		Background.color = color;
 		textComponent.text = StaticUtils.ToRaceTimeString (metrics.TotalTime);
 		Destroy (rocket);
