@@ -12,6 +12,7 @@ namespace RealRocketRacing.Rocket
             get; private set; 
         }
 
+        public GameObject VictoryInfo;
 
 		private bool _running = false;
 		public void StartTimer(){
@@ -34,7 +35,16 @@ namespace RealRocketRacing.Rocket
 
         public TimeSpan CurrentLapTime
         {
-            get { return LapTimes[LapCount]; }
+            get {
+                if (LapCount < LapTimes.Length)
+                {
+                    return LapTimes[LapCount];
+                }
+                else
+                {
+                    return LapTimes[LapTimes.Length-1];
+                }
+            }
         }
 
 
@@ -101,29 +111,39 @@ namespace RealRocketRacing.Rocket
             LapCount = 0;
 			AddLapCompleteCallback (TrackComplete);
         }
-		private void TrackComplete(GameObject rocket,TimeSpan lapTime,int lapNumber){
-			DontDestroyOnLoad(gameObject);
-			if (lapNumber == NumberOfLaps - 1) {
-				Application.LoadLevel("ScoreScreen");
+		private void TrackComplete(GameObject rocket,TimeSpan lapTime,int lapNumber){			            
+			if (lapNumber == NumberOfLaps - 1)
+			{
+                Debug.Log("Track Complete");
+                var victoryInfo = GameObject.Instantiate(VictoryInfo);
+			    var victoryPallette=victoryInfo.GetComponent<RocketPalette>();
+			    var pallette = GetComponent<RocketPalette>();
+			    victoryPallette.BaseColor = pallette.BaseColor;
+			    victoryPallette.AccentColor = pallette.AccentColor;
+			    var vinfo=victoryInfo.GetComponent<VictoryInfo>();
+			    vinfo.RocketRigidBody = GetComponent<Rigidbody2D>();
+			    vinfo.Time = this.TotalTime;
+			    vinfo.WinningPlayer = GetComponent<RocketController>().RocketPlayer;                
 			}
-		}	
+		}        
         // Update is called once per frame
         void Update () {
 			if (_running) {
 				var delta = TimeSpan.FromSeconds (Time.deltaTime);
 				TotalTime += delta;
-				LapTimes [LapCount] += delta;
+                if (LapCount < LapTimes.Length) { 
+				    LapTimes [LapCount] += delta;
+                }
 			}
         }
 
         public void ToCurrentCheckpoint()
         {
-
 			var checkpoint = CurrentCheckpoint;
             GetComponent<Rigidbody2D>().rotation = (checkpoint.Heading);            
             GetComponent<Rigidbody2D>().angularVelocity = 0;
             GetComponent<Rigidbody2D>().velocity =  Vector2.zero;
-            GetComponent<Rigidbody2D>().position = checkpoint.Location;         
+            GetComponent<Transform>().position = checkpoint.Location;         
         }
     }
 }

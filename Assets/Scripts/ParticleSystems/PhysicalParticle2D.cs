@@ -13,6 +13,7 @@ namespace RealRocketRacing.ParticleSystem
             var material = new Material(Shader.Find("Particles/Additive"));
             _renderer.material = material;
             gameObject.SetActive(false);
+            
         }
     
         private float _decayRate;

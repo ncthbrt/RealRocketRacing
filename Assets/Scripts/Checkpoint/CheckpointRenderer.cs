@@ -79,7 +79,6 @@ namespace RealRocketRacing.RaceCheckpoints
 
 		private void PassedCheckpoint(Checkpoint checkpoint, GameObject rocket)
 		{
-			Debug.Log ("Passed checkpoint");
 			CancelInvoke ("Transition");
 			_currentColorLeft = Color.Lerp (_currentColorLeft, _nextColorLeft, _transitionProgress);
 			_currentColorRight = Color.Lerp (_currentColorRight, _currentColorLeft, _transitionProgress);

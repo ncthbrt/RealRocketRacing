@@ -44,17 +44,14 @@ namespace RealRocketRacing.ParticleSystem{
 		private Color _endColor;
 	    private RocketPalette _palette;
 		public void StartExplosion(Vector2 velocity, Vector2 spawnPoint){
-			gameObject.SetActive (true);
-
-            
-            _endColor = _palette.AccentColor;
-                        
+			gameObject.SetActive (true);                                                
 			_spawnRate = Intensity;
 			_velocity = velocity;
 			_spawnPoint = spawnPoint;
 			_bag = 0;
 			InvokeRepeating("Explode",0,Time.fixedDeltaTime);
 		}
+
 
 		private float _bag=0;
 		private void Explode(){
@@ -72,7 +69,7 @@ namespace RealRocketRacing.ParticleSystem{
 			} else {
 				for(int i=0; i<spawnCount; ++i){
 					var velocity = _velocity+ ParticleVelocity*Random.insideUnitCircle;
-					_particles[_particleNo++].Reset(velocity,_spawnPoint+Random.insideUnitCircle*Random.value*PositionVarience,360*Random.value,Random.value*MaxAngularVelocity*2-MaxAngularVelocity,ParticleHoldTime,Random.Range(MinParticleDecayTime,MaxParticleDecayTime),_endColor,_endColor);
+					_particles[_particleNo++].Reset(velocity,_spawnPoint+Random.insideUnitCircle*Random.value*PositionVarience,360*Random.value,Random.value*MaxAngularVelocity*2-MaxAngularVelocity,ParticleHoldTime,Random.Range(MinParticleDecayTime,MaxParticleDecayTime),_palette.AccentColor,_palette.BaseColor);
 					_particleNo=_particleNo%_particles.Count;
 				}
 			}

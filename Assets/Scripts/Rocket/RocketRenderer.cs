@@ -39,7 +39,7 @@ namespace RealRocketRacing.Rocket
             InvokeRepeating("ToWhite", DamageColorHold, Time.fixedDeltaTime);
         }
 
-        public Color _damageColor=new Color(1,0,0);                
+        private Color _damageColor=new Color(1,0,0);                
         private Color _currentColor;
         private Color _baseColor;
         private float _progress=1f;

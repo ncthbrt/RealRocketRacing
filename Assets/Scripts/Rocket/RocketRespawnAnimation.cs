@@ -8,7 +8,7 @@ namespace RealRocketRacing.Rocket{
 	public class RocketRespawnAnimation : MonoBehaviour
 	{
 	    public PhysicalParticle2D Template;
-	    public Rigidbody2D RocketRigidbody2D;
+	    private Rigidbody2D _rocketRigidbody2D;
 		private ExplosionParticleSystem _explosionParticleSystem;
 	    public RocketDamageSystem DamageSystem;
 	    public RocketRaceMetrics Metrics;
@@ -20,7 +20,7 @@ namespace RealRocketRacing.Rocket{
 
 		void Start ()
 		{
-		    				        
+		    _rocketRigidbody2D = GetComponent<Rigidbody2D>();
 			_explosionParticleSystem = GetComponent<ExplosionParticleSystem> ();
 			_explosionParticleSystem.MaxParticleDecayTime= Metrics.RespawnTime;
 			_explosionParticleSystem.MinParticleDecayTime= Metrics.RespawnTime*0.5f;
@@ -37,7 +37,7 @@ namespace RealRocketRacing.Rocket{
 	        Controller.ControlsEnabled = false;
 	        
 	        rocketRigidbody.velocity = Vector2.zero;
-	        rocketRigidbody.angularVelocity = 0;
+	        rocketRigidbody.angularVelocity= 0;            
 	        rocketRigidbody.rotation = 0;
 	        rocketRigidbody.position = OffscreenGarage.position;
 	        

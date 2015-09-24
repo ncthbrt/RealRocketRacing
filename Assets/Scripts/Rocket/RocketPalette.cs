@@ -9,8 +9,16 @@ namespace RealRocketRacing.Rocket
         public Color AccentColor;
 
         public void Start()
+        {            
+            ResetColors();
+        }
+
+        public void ResetColors()
         {
-            GetComponent<SpriteRenderer>().color = BaseColor;
+            if (GetComponent<SpriteRenderer>() != null)
+            {
+                GetComponent<SpriteRenderer>().color = BaseColor;
+            }
         }
     }
 }

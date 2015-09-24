@@ -19,6 +19,8 @@ public class SoundEffectSystem : MonoBehaviour {
 
 
 		void Start () {
+
+
 			Metrics.AddPassedCheckpointCallback (PlayPassedCheckpointSound);
 			Metrics.AddLapCompleteCallback (PlayLapCompleteSound);
 			DamageSystem.AddOnDamageCallback (PlayDamageSound);
@@ -68,14 +70,6 @@ public class SoundEffectSystem : MonoBehaviour {
 
 		private void PlayExplosionSound(GameObject rocket,Vector2 position){
 			Explosion.Play();
-		}
-
-
-		
-
-		// Update is called once per frame
-		void Update () {
-		
 		}
 	}
 }
