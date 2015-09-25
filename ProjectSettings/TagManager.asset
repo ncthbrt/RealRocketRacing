@@ -9,6 +9,7 @@ TagManager:
   - Fatal
   - EnenySensors
   - VictoryInfo
+  - Sountrack
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - Enemy
   - EnemySensor
   - RenderTexture
-  - 
+  - SpawnPoint
   - 
   - 
   - 

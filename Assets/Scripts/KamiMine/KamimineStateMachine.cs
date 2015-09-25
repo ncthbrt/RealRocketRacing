@@ -7,11 +7,9 @@ public class KamimineStateMachine : MonoBehaviour {
 		public float RespawnTime;
 
 		public void Reset(){
-			Rocket = null;
-			GetComponent<Rigidbody2D>().position=_startingPosition;
-			GetComponent<Rigidbody2D>().rotation = _startingRotation;
+			Rocket = null;			
 			_periodCount = 0;
-			State = KamimineState.Searching;
+			State = KamimineState.Searching;            
 		}
 
 
@@ -37,18 +35,19 @@ public class KamimineStateMachine : MonoBehaviour {
 						_listeners(value);
 					}
 					if(value==KamimineState.Destroyed){
-						gameObject.SetActive(false);
-						Invoke("ToRevival",RespawnTime);
+						gameObject.SetActive(false);                        
+                        Invoke("ToRevival",RespawnTime);
 					}else if(value==RealRocketRacing.Kamimine.KamimineState.Reviving){
-						gameObject.SetActive(true);
-						GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+						gameObject.SetActive(true);                        
+                        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 						GetComponent<Rigidbody2D>().angularVelocity = 0;						
-						GetComponent<Rigidbody2D>().position = _startingPosition;
-						GetComponent<Rigidbody2D>().rotation = _startingRotation;
-						State=KamimineState.Watching;
+						GetComponent<Rigidbody2D>().position = _startingPosition;                        
+                        GetComponent<Rigidbody2D>().rotation = _startingRotation;
+                        _periodCount = 0;                        					
 					}
-		         	else{
-						KamimineAnimator.SetInteger("KamimineState",(int)value);
+		         	else
+					{					    
+                        KamimineAnimator.SetInteger("KamimineState",(int)value);
 						_state=value;
 						switch(_state){
 							case KamimineState.Charging:
@@ -99,9 +98,9 @@ public class KamimineStateMachine : MonoBehaviour {
 		}
 
 		private void ToRevival(){
-			State = KamimineState.Reviving;
-		}
-		private void ToEyesClosing(){
+			State = KamimineState.Reviving;            
+        }
+        private void ToEyesClosing(){
 			State = KamimineState.EyesClosing;
 		}
 

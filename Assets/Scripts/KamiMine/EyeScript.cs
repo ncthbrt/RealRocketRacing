@@ -18,6 +18,7 @@ namespace RealRocketRacing.Kamimine{
 		void Start () {
 			_offset = Vector2.zero;
 			_target = _offset;
+		    _realMaxOffset = MaxOffset;
 			_stateMachine = GetComponentInParent<KamimineStateMachine> ();
 		}
 		
@@ -35,13 +36,14 @@ namespace RealRocketRacing.Kamimine{
 		private void LookAt(GameObject rocket){
 			var rocketPosition = rocket.transform.position;
 			var delta = rocketPosition - transform.position;
-			var normal = delta.normalized;
-			var target = normal * _realMaxOffset+transform.position;
-			var deltaEye = target - Iris.transform.position;
-			if (deltaEye.sqrMagnitude > MaxEyeSpeed*MaxEyeSpeed) {
-				Iris.transform.position+=normal*MaxEyeSpeed;
+			delta.Normalize();
+		    var target = delta*_realMaxOffset;
+            var deltaEye = target - Iris.transform.localPosition;
+		    var maxOffset = MaxEyeSpeed;
+            if (deltaEye.sqrMagnitude > maxOffset*maxOffset){
+				Iris.transform.localPosition+=deltaEye.normalized*maxOffset;
 			} else {
-				Iris.transform.position+=deltaEye;
+				Iris.transform.localPosition=target;
 			}
 		}
 

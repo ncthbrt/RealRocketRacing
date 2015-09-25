@@ -52,8 +52,6 @@ namespace RealRocketRacing.Rocket
 		private RocketDamage _damagedCallbacks;    
    
     
-	
-
 
         public void AddRespawnCallback(Respawn callback)
         {

@@ -80,25 +80,36 @@ namespace RealRocketRacing.Rocket
 		}
 
         void OnTriggerEnter2D(Collider2D other)
-        {            
-            var checkpoint=other.GetComponentInParent<Checkpoint>();            
-            if (checkpoint != null)
+        {
+            if (other.gameObject.layer != LayerMask.NameToLayer("SpawnPoint"))
             {
-				if(checkpoint.CheckpointID == (_currentCheckpoint.CheckpointID + 1)%NumberOfCheckpoints){
-	                _currentCheckpoint=checkpoint;                            
-	                if(_currentCheckpoint.CheckpointID==0){//If the agent has completed a lap	                    
-	                    if (_lapCompleteCallbacks != null) { 
-	                        _lapCompleteCallbacks(gameObject,CurrentLapTime,LapCount);                                                
-	                    }
-	                    ++LapCount;                    
-	                }
+                var checkpoint = other.GetComponentInParent<Checkpoint>();
+                if (checkpoint != null)
+                {
+                    if (checkpoint.CheckpointID == (_currentCheckpoint.CheckpointID + 1)%NumberOfCheckpoints)
+                    {
+                        _currentCheckpoint = checkpoint;
+                        if (_currentCheckpoint.CheckpointID == 0)
+                        {
+                            //If the agent has completed a lap	                    
+                            if (_lapCompleteCallbacks != null)
+                            {
+                                _lapCompleteCallbacks(gameObject, CurrentLapTime, LapCount);
+                            }
+                            ++LapCount;
+                        }
 
-					if(_passedCheckpointCallbacks!=null){
-	                    _passedCheckpointCallbacks(_currentCheckpoint,gameObject);
-	                }
-				}else if(checkpoint.CheckpointID!=CurrentCheckpoint.CheckpointID){ //Passed through invalid checkpoint
-					_passedInvalidCheckpointCallback(checkpoint,gameObject);
-				}
+                        if (_passedCheckpointCallbacks != null)
+                        {
+                            _passedCheckpointCallbacks(_currentCheckpoint, gameObject);
+                        }
+                    }
+                    else if (checkpoint.CheckpointID != CurrentCheckpoint.CheckpointID)
+                    {
+                        //Passed through invalid checkpoint
+                        _passedInvalidCheckpointCallback(checkpoint, gameObject);
+                    }
+                }
             }
         }
 

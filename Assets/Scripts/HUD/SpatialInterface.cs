@@ -65,7 +65,7 @@ namespace RealRocketRacing.Hud
             {
                 _deltaOpacityOut= 1;
             }
-			InvokeRepeating("PassedCheckpointEndIn",0,Time.fixedDeltaTime);       
+			InvokeRepeating("PassedCheckpointEndIn",0,1/60f);       
         }
 
         private float _opacity= 0;
@@ -74,7 +74,7 @@ namespace RealRocketRacing.Hud
         private void PassedCheckpointEndIn()
         {
         
-            _opacity += _deltaOpacityIn;
+            _opacity += (1/60f)/LapSummaryTimeIn;
         
             _lapLabelTime = new TimeSpan((long) Mathf.Lerp(TimeSpan.Zero.Ticks, _lapTime.Ticks,_opacity));
             if (_opacity >=1f)
@@ -82,18 +82,18 @@ namespace RealRocketRacing.Hud
                 _opacity = 1f;
                 _lapLabelTime = _lapTime;
 				CancelInvoke("PassedCheckpointEndIn"); 
-				InvokeRepeating("PassedCheckpointEndOut", LapSummaryHoldTime, Time.fixedDeltaTime);
+				InvokeRepeating("PassedCheckpointEndOut", LapSummaryHoldTime, 1/60f);
             }
         }
 
         private void PassedCheckpointEndOut()
         {        
-            _opacity -= _deltaOpacityOut;
+            _opacity -= (1 / 60f) / LapSummaryTimeOut;
             if (_opacity <=0f)
             {
                 _opacity = 0;                             
                 _lapLabelTime=TimeSpan.Zero;
-                CancelInvoke("LapEndOut");
+                CancelInvoke("PassedCheckpointEndOut");
             }
         }
 

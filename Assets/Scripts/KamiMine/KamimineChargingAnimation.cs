@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using RealRocketRacing.Rocket;
+
 namespace RealRocketRacing.Kamimine{
 	public class KamimineChargingAnimation : MonoBehaviour {
 
-		public Color UnchargedColor;
-		public Color ChargedColor;
 		public float MaxShakeIntensity;
 
 		public float FullyChargedScale=2f;
@@ -13,8 +13,9 @@ namespace RealRocketRacing.Kamimine{
 		private KamimineStateMachine _stateMachine;		
 		public SpriteRenderer[] KamiminePartRenderers;
 		public Transform Sensor;
-
-		private float _chargingDelta;
+	    public AudioSource ChargingAudio;
+        public AudioSource DischargingAudio;
+        private float _chargingDelta;
 		private float _dischargingDelta;
 		private float _transitionProgress;
 
@@ -31,7 +32,7 @@ namespace RealRocketRacing.Kamimine{
 		private void ResetKamimine(){
 			transform.localScale = new Vector3(ExhaustedChargeScale,ExhaustedChargeScale,1);
 			foreach (var renderer in KamiminePartRenderers) {
-				renderer.color=UnchargedColor;
+				renderer.color=GetComponent<RocketPalette>().BaseColor;
 			}
 		}
 
@@ -39,18 +40,20 @@ namespace RealRocketRacing.Kamimine{
 		private void StartCharge(KamimineState state){
 			if (state == KamimineState.Charging) {
 				CancelInvoke ("Discharge");
-				_transitionProgress = 0;	
-
-				InvokeRepeating ("Charge", 0, Time.fixedDeltaTime);				
+				_transitionProgress = 0;
+                ChargingAudio.Play();
+                InvokeRepeating ("Charge", 0, Time.fixedDeltaTime);				
 			} else if (state == KamimineState.Reviving) {
 				ResetKamimine();
 			}
 			else {
 				Sensor.localPosition=Vector3.zero;
 				Sensor.localRotation=Quaternion.identity;
-				CancelInvoke("Charge");				
-				if(state==KamimineState.Attacking){				
-					InvokeRepeating("Discharge",(1f-_dischargeRatioToAttackTime)*_stateMachine.AttackBurstTime,Time.fixedDeltaTime);
+				CancelInvoke("Charge");
+
+                if (state==KamimineState.Attacking){
+                    DischargingAudio.Play();
+                    InvokeRepeating("Discharge",(1f-_dischargeRatioToAttackTime)*_stateMachine.AttackBurstTime,Time.fixedDeltaTime);
 				}
 			}
 		}
@@ -60,7 +63,7 @@ namespace RealRocketRacing.Kamimine{
 			if(_transitionProgress<0){
 				_transitionProgress=0;
 			}
-			var color=Color.Lerp (UnchargedColor, ChargedColor, _transitionProgress);
+			var color=Color.Lerp (GetComponent<RocketPalette>().BaseColor, GetComponent<RocketPalette>().AccentColor, _transitionProgress);
 			var scale = Mathf.Lerp (ExhaustedChargeScale, FullyChargedScale, _transitionProgress);
 			transform.localScale = new Vector3(scale,scale,1);
 
@@ -77,7 +80,7 @@ namespace RealRocketRacing.Kamimine{
 				_transitionProgress=1f;
 			}
 			var shakeIntensity = _transitionProgress * MaxShakeIntensity;
-			var color=Color.Lerp (UnchargedColor, ChargedColor, _transitionProgress);
+			var color=Color.Lerp (GetComponent<RocketPalette>().BaseColor, GetComponent<RocketPalette>().AccentColor, _transitionProgress);
 
 			var scale = Mathf.Lerp (ExhaustedChargeScale, FullyChargedScale, _transitionProgress);
 			transform.localScale = new Vector3(scale,scale,1);

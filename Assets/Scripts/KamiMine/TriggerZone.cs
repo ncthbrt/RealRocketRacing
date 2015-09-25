@@ -6,9 +6,18 @@ namespace RealRocketRacing.Kamimine{
 			if (other.tag.Equals ("Player")) {			
 				_currentScale=Mathf.Lerp (_currentScale, BreatheInScale, _progress);
 				CancelInvoke("Expand");
-				_stateMachine.SensorTriggerred(other.gameObject);
+
+                if (_stateMachine.State != KamimineState.Charging && !TriggerSound.isPlaying)
+                {
+                    TriggerSound.Play();
+                }
+                _stateMachine.SensorTriggerred(other.gameObject);
+                
+			    
 			}
 		}
+
+	    public AudioSource TriggerSound;
 
 		// Use this for initialization
 		void Start () {

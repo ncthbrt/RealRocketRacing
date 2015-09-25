@@ -12,6 +12,7 @@ namespace RealRocketRacing.Rocket{
 		private ExplosionParticleSystem _explosionParticleSystem;
 	    public RocketDamageSystem DamageSystem;
 	    public RocketRaceMetrics Metrics;
+	    public AudioSource RespawnAudio;
 	    
 	    public RocketController Controller;	    	   
 	    
@@ -43,17 +44,21 @@ namespace RealRocketRacing.Rocket{
 	        
 			_explosionParticleSystem.StartExplosion (rocketVelocity, location);	        
 	        
-	        Invoke("RestorePosition",Metrics.RespawnTime);
+	        InvokeRepeating("RestorePosition",Metrics.RespawnTime,1/60f);
 	    }
 
 
 	    void RestorePosition()
 	    {
-			Metrics.ToCurrentCheckpoint();
-			DamageSystem.RespawnComplete();
-	        Controller.ControlsEnabled = true;     
-	        
-	    }	
+	        if (Metrics.CurrentCheckpoint.CanSpawn)
+	        {
+	            Metrics.ToCurrentCheckpoint();
+                RespawnAudio.Play();
+	            DamageSystem.RespawnComplete();
+	            Controller.ControlsEnabled = true;
+                CancelInvoke("RestorePosition");
+	        }	        
+	    }
 	
 	}
 }

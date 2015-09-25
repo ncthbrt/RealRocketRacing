@@ -12,11 +12,14 @@ namespace RealRocketRacing.RRRCamera
         private RocketDamageSystem[] DamageSystems;
 		private RocketRaceMetrics[] Metrics;
 		public float CollisionShakeTime=0.3f;
-        
+        public ZoomLensFadeAnimation[] ZoomLenses;
         public float ExponentialEasingFactor=0.25f;
         public float StartSize = 8;    
-        public float MaxSize = 20;
-        public float MaxSpeed;
+        public float MaxSpeedScaleSize = 20;
+        public float ZoomLensMinSize= 20;
+        public float ZoomLensBuildupTime=10f;
+        public float ZoomLensHideTime = 3f;
+        public float MaxSpeed=15;
         private float _invExpFactor;
         private float _sizeDelta;
 		private float _aspect;
@@ -36,16 +39,58 @@ namespace RealRocketRacing.RRRCamera
 				DamageSystems[i].AddRespawnCallback(DestructionShake);
 				DamageSystems[i].AddOnDamageCallback (DamageShake);
 			}
+            foreach (var zoomLens in ZoomLenses)
+            {
+                zoomLens.Hide();
+            }
+
 
             _invExpFactor = 1 - ExponentialEasingFactor;
-            _sizeDelta = MaxSize - StartSize;
+            _sizeDelta = MaxSpeedScaleSize - StartSize;
 		}
 
 
+        private float _splitTime = 0;
+        private bool _isSplit;
+        private float _mergeTime= 0;
+        public void Update()
+        {
+            if (GetComponent<Camera>().orthographicSize >= ZoomLensMinSize)
+            {
+                _splitTime += Time.deltaTime;
+                _mergeTime = 0;
+                if (_splitTime >= this.ZoomLensBuildupTime)
+                {
+                    if (!_isSplit)
+                    {
+                        foreach (var zoomLens in ZoomLenses)
+                        {
+                            zoomLens.FadeIn();
+                        }
+                    }
+                    _isSplit = true;                    
+                }
+            }
+            else
+            {
+                _mergeTime += Time.deltaTime;
+                _splitTime = 0;
+                if (_mergeTime >= ZoomLensHideTime)
+                {
+                    if (_isSplit)
+                    {
+                        foreach (var zoomLens in ZoomLenses)
+                        {
+                            zoomLens.FadeOut();
+                        }
+                    }
+                    _isSplit = false;
+                }
+            }
+        }
 
         void FixedUpdate ()
         {
-
 			Vector2 averagePosition=new Vector2();
 			float maxSpeed = 0;
 			Vector2 max = new Vector2 (float.NegativeInfinity,float.NegativeInfinity);
@@ -75,8 +120,6 @@ namespace RealRocketRacing.RRRCamera
 					}
 				}
 			}
-
-
 
             if (aliveCount>0)
             {
@@ -113,7 +156,7 @@ namespace RealRocketRacing.RRRCamera
                     else
                     {
 
-                        finalSize = MaxSize;
+                        finalSize = MaxSpeedScaleSize;
                     }
                 }
                 else

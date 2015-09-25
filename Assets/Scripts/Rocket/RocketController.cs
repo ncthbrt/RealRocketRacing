@@ -120,8 +120,6 @@ namespace RealRocketRacing.Rocket
 
         public void RocketDamage(GameObject rocket, float damage, float remainingHealth)
         {            
-            if (GamePad.GetState(_playerIndex).IsConnected)
-            {
                 if (damage >= LargeDamage)
                 {                    
                     Vibrate(Easing.Linear, LargeDamageShakeDuration, LargeDamageShakeLeftIntensity,LargeDamageShakeRightIntensity);                    
@@ -132,8 +130,7 @@ namespace RealRocketRacing.Rocket
                 else if(damage>=SmallDamage)
                 {                    
                     Vibrate(Easing.Linear, SmallDamageShakeDuration, SmallDamageShakeLeftIntensity, SmallDamageShakeRightIntensity);
-                }
-            }            
+                }           
         }
 
 
@@ -369,9 +366,7 @@ namespace RealRocketRacing.Rocket
             else if (_rightThrusterOn && !left)
             {
                 _rightThrusterOn = false;
-            }            
-            
-
+            }                        
         }
 
 

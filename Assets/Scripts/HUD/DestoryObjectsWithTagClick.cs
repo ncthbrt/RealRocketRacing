@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DestoryObjectsWithTagClick : MonoBehaviour
 {
-    public GameObject Object;
+    public GameObject[] Objects;
 	// Use this for initialization
 	void Start () {
 	    
@@ -11,11 +11,14 @@ public class DestoryObjectsWithTagClick : MonoBehaviour
 
     public void OnClick()
     {
-        foreach (var obj in GameObject.FindGameObjectsWithTag(Object.tag))
+        foreach (var o in Objects)
         {
-            Debug.Log("Destroying");
-            GameObject.Destroy(obj);
-        }                
+            foreach (var obj in GameObject.FindGameObjectsWithTag(o.tag))
+            {                
+                GameObject.Destroy(obj);
+            }
+        }
+        
     }
 	
 	// Update is called once per frame

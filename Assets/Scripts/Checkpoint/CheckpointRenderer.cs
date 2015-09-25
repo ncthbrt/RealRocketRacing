@@ -4,8 +4,7 @@ namespace RealRocketRacing.RaceCheckpoints
 {
     public class CheckpointRenderer : MonoBehaviour
     {
-		public RocketRegistry Registry;
-		bool StartingCheckPoint;
+		public RocketRegistry Registry;		
         public Camera CurrentCamera;
         public Transform StartPoint;
         public Transform EndPoint;
