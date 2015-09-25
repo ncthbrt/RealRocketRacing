@@ -39,9 +39,11 @@ namespace RealRocketRacing.Rocket
         public float MediumDamage=0.07f;
         public float LargeDamage=0.5f;
 
-
+        
         public float DeathShakeDuration;
+        [Range(0, 1)]
         public float DeathShakeLeftIntensity;
+        [Range(0, 1)]
         public float DeathShakeRightIntensity;
         // Use this for initialization
 
@@ -55,14 +57,37 @@ namespace RealRocketRacing.Rocket
 		private string _up = "up";
 		private string _left = "left";
 		private string _right  = "right";        
-		
-	//	private string _thrustButton = "Fire1";
-	//	private string _steeringAxis = "Horizontal";
-    		       
+        private string _horizontal;
+        private string _thrust;
+
+        //	private string _thrustButton = "Fire1";
+        //	private string _steeringAxis = "Horizontal";
+
 
 
         void Start()
-        {        
+        {
+            switch (Application.platform)
+            {
+                case UnityEngine.RuntimePlatform.LinuxPlayer:
+                {
+                    _platform = Platform.Linux;
+                }
+                break;
+                case UnityEngine.RuntimePlatform.WindowsEditor:
+                case UnityEngine.RuntimePlatform.WindowsPlayer:
+                {
+                        _platform = Platform.Windows;
+                }
+                break;
+                case UnityEngine.RuntimePlatform.OSXEditor:
+                case UnityEngine.RuntimePlatform.OSXPlayer:
+                {
+                        _platform = Platform.OSX;
+                }
+                break;
+            }     
+
 			Reset();
             var damageSys=GetComponent<RocketDamageSystem>();
             damageSys.AddOnDamageCallback(RocketDamage);
@@ -76,7 +101,9 @@ namespace RealRocketRacing.Rocket
                 _up = "w";
                 _right = "d";
                 _left = "a";
-                _playerIndex = PlayerIndex.Two;
+                _playerIndex = PlayerIndex.Two;                
+                _horizontal = "Horizontal";
+                _thrust = "Fire1";
             }
             else
             {
@@ -84,6 +111,8 @@ namespace RealRocketRacing.Rocket
                 _left = "left";
                 _right = "right";
                 _playerIndex = PlayerIndex.One;
+                _horizontal = "Player2Horizontal";
+                _thrust = "Player2Fire1";
             }
         }
 
@@ -110,8 +139,6 @@ namespace RealRocketRacing.Rocket
 
         public void Respawn(GameObject rocket, Vector2 contactPoint)
         {
-
-
                 ThrusterStateChange(false, ThrusterGroup.PRIMARY);
                 ThrusterStateChange(false, ThrusterGroup.LEFT);            
                 ThrusterStateChange(false, ThrusterGroup.RIGHT);
@@ -212,21 +239,24 @@ namespace RealRocketRacing.Rocket
         public delegate double EasingFunction(double t, double start, double end, double duration);
         public void Vibrate(EasingFunction function, float duration, float leftIntensity, float rightIntensity)
         {
-            GamePad.SetVibration(_playerIndex, leftIntensity, rightIntensity);
-            CancelInvoke("StopVibrate");
-            CancelInvoke("VibrationEase");
-            if (function == null)
+            if (_platform == Platform.Windows)
             {
-                Invoke("StopVibrate", duration);
-            }
-            else
-            {
-                _vibrationFunction = function;
-                _vibrationProgress = 0;
-                _vibrationTime = duration;
-                _vibrationLeftStart = leftIntensity;
-                _vibrationRightStart = rightIntensity;
-                InvokeRepeating("VibrationEase", 0, 1 / 60f);
+                GamePad.SetVibration(_playerIndex, leftIntensity, rightIntensity);
+                CancelInvoke("StopVibrate");
+                CancelInvoke("VibrationEase");
+                if (function == null)
+                {
+                    Invoke("StopVibrate", duration);
+                }
+                else
+                {
+                    _vibrationFunction = function;
+                    _vibrationProgress = 0;
+                    _vibrationTime = duration;
+                    _vibrationLeftStart = leftIntensity;
+                    _vibrationRightStart = rightIntensity;
+                    InvokeRepeating("VibrationEase", 0, 1/60f);
+                }
             }
         }
 
@@ -251,39 +281,67 @@ namespace RealRocketRacing.Rocket
         }
 
         public float AxisThreshold=0.3f;
+        private Platform _platform=Platform.Windows;
+        private enum Platform
+        {
+            Windows, Linux,OSX
+        }
         void HandleControllerInput()
         {
 
-            GamePadState gamePadState = GamePad.GetState(_playerIndex);
-            bool left=false;
-            bool right = false;
-            bool thrustPressed=false;
+            
+            var left=false;
+            var right = false;
+            var thrustPressed=false;
 
-            if (gamePadState.IsConnected)
+            if (_platform == Platform.Windows)
             {
-                float horizontal = gamePadState.ThumbSticks.Left.X;
+                GamePadState gamePadState = GamePad.GetState(_playerIndex);
+                if (gamePadState.IsConnected)
+                {
+                    float horizontal = gamePadState.ThumbSticks.Left.X;
+                    if (horizontal >= AxisThreshold)
+                    {
+                        right = true;
+                        left = false;
+                    }
+                    else if (horizontal < -AxisThreshold)
+                    {
+                        right = false;
+                        left = true;
+                    }
+                    else
+                    {
+                        right = false;
+                        left = false;
+                    }
+                    thrustPressed = gamePadState.Buttons.A == ButtonState.Pressed;
+                }
+            }else
+            {
+                float horizontal = Input.GetAxis(_horizontal);
                 if (horizontal >= AxisThreshold)
                 {
                     right = true;
                     left = false;
-                }else if (horizontal < -AxisThreshold)
+                }
+                else if (horizontal < -AxisThreshold)
                 {
                     right = false;
-                    left = true;                    
+                    left = true;
                 }
                 else
                 {
                     right = false;
-                    left  = false;
+                    left = false;
                 }
-                thrustPressed = gamePadState.Buttons.A == ButtonState.Pressed;
+                thrustPressed = Input.GetButton(_thrust);
             }
-            else
-            {
-                thrustPressed = Input.GetKey(_up);
-                left = Input.GetKey(_left);
-                right = Input.GetKey(_right);
-            }
+
+            thrustPressed = Input.GetKey(_up) || thrustPressed;
+            left = Input.GetKey(_left) || left;
+            right = Input.GetKey(_right)  || right;
+            
 
             if (!_primaryThrusterOn && thrustPressed)
             {
@@ -394,4 +452,5 @@ namespace RealRocketRacing.Rocket
         }
     }
 }
+
 

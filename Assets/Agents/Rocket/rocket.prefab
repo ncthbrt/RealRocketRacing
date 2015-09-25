@@ -848,15 +848,15 @@ MonoBehaviour:
   - {fileID: 122774}
   RightThrusters:
   - {fileID: 175826}
-  LargeDamageShakeDuration: 0
-  LargeDamageShakeLeftIntensity: 0
-  LargeDamageShakeRightIntensity: 0
-  MediumDamageShakeDuration: 0
-  MediumDamageShakeLeftIntensity: 0
-  MediumDamageShakeRightIntensity: 0
-  SmallDamageShakeDuration: 0
-  SmallDamageShakeLeftIntensity: 0
-  SmallDamageShakeRightIntensity: 0
+  LargeDamageShakeDuration: 1
+  LargeDamageShakeLeftIntensity: 1
+  LargeDamageShakeRightIntensity: 1
+  MediumDamageShakeDuration: .600000024
+  MediumDamageShakeLeftIntensity: 1
+  MediumDamageShakeRightIntensity: 1
+  SmallDamageShakeDuration: .300000012
+  SmallDamageShakeLeftIntensity: .995000005
+  SmallDamageShakeRightIntensity: .809000015
   SmallDamage: .00999999978
   MediumDamage: .0700000003
   LargeDamage: .5
@@ -1012,6 +1012,42 @@ Prefab:
       propertyPath: VictoryInfo
       value: 
       objectReference: {fileID: 128630, guid: 2437d0754e7b1514f8e27a1ec2323866, type: 2}
+    - target: {fileID: 0}
+      propertyPath: LargeDamageShakeLeftIntensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: LargeDamageShakeRightIntensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: LargeDamageShakeDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: MediumDamageShakeDuration
+      value: .600000024
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: MediumDamageShakeLeftIntensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: MediumDamageShakeRightIntensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: SmallDamageShakeLeftIntensity
+      value: .995000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: SmallDamageShakeRightIntensity
+      value: .809000015
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: SmallDamageShakeDuration
+      value: .300000012
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 175828}
