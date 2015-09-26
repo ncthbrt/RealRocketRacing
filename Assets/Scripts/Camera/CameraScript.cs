@@ -29,15 +29,16 @@ namespace RealRocketRacing.RRRCamera
             _prev = 0;
 			_aspect = GetComponent<Camera>().aspect;
 			_players = new Rigidbody2D[Registry.Rockets.Length];
-
-			DamageSystems=new RocketDamageSystem[_players.Length];
+            _lastPosition= new Vector2[Registry.Rockets.Length];
+            _lastVelocity= new float[Registry.Rockets.Length];            
+            DamageSystems =new RocketDamageSystem[_players.Length];
 			Metrics = new RocketRaceMetrics[_players.Length];
 			for (int i=0; i<_players.Length; ++i) {
 				_players[i]=Registry.Rockets[i].GetComponent<Rigidbody2D>();
 				Metrics[i]=_players[i].GetComponent<RocketRaceMetrics>();
 				DamageSystems[i]=_players[i].GetComponent<RocketDamageSystem>();
 				DamageSystems[i].AddRespawnCallback(DestructionShake);
-				DamageSystems[i].AddOnDamageCallback (DamageShake);
+				DamageSystems[i].AddOnDamageCallback (DamageShake);			
 			}
             foreach (var zoomLens in ZoomLenses)
             {
@@ -49,12 +50,25 @@ namespace RealRocketRacing.RRRCamera
             _sizeDelta = MaxSpeedScaleSize - StartSize;
 		}
 
-
+        private Vector2[] _lastPosition;
+        private float[] _lastVelocity;
         private float _splitTime = 0;
         private bool _isSplit;
-        private float _mergeTime= 0;
+        private float _mergeTime= 0;        
         public void Update()
         {
+            for (int i = 0; i < _players.Length; ++i)
+            {
+                if (!DamageSystems[i].Alive)
+                {
+                    ZoomLenses[i].Hide();
+                }
+                else if(_isSplit)
+                {
+                    ZoomLenses[i].ReentrantFadeIn();
+                }
+            }
+
             if (GetComponent<Camera>().orthographicSize >= ZoomLensMinSize)
             {
                 _splitTime += Time.deltaTime;
@@ -95,86 +109,74 @@ namespace RealRocketRacing.RRRCamera
 			float maxSpeed = 0;
 			Vector2 max = new Vector2 (float.NegativeInfinity,float.NegativeInfinity);
 			Vector2 min = new Vector2 (float.PositiveInfinity, float.PositiveInfinity);
-
-			int aliveCount = 0;
+			
 			for (int i=0; i<_players.Length; ++i){
-				if(DamageSystems[i].Alive){
-
-					aliveCount++;
-					var mag=_players[i].velocity.magnitude;
-					maxSpeed=maxSpeed<mag?mag:maxSpeed;
-					averagePosition+=_players[i].position;
-					var pos=_players[i].position;
-					if(pos.x>max.x){
-						max.x=pos.x;
-					}
-					if(pos.y>max.y){
-						max.y=pos.y;
-					}
-
-					if(pos.x<min.x){
-						min.x=pos.x;
-					}
-					if(pos.y<min.y){
-						min.y=pos.y;
-					}
+				if(DamageSystems[i].Alive){									
+				    _lastVelocity[i] = _players[i].velocity.magnitude; 
+				    _lastPosition[i] = _players[i].position;
 				}
+                maxSpeed = maxSpeed < _lastVelocity[i] ? _lastVelocity[i] : maxSpeed;
+                averagePosition += _lastPosition[i];
+			    var pos = _lastPosition[i];
+                if (pos.x > max.x)
+                {
+                    max.x = pos.x;
+                }
+                if (pos.y > max.y)
+                {
+                    max.y = pos.y;
+                }
+
+                if (pos.x < min.x)
+                {
+                    min.x = pos.x;
+                }
+                if (pos.y < min.y)
+                {
+                    min.y = pos.y;
+                }
+            }
+          
+			Vector2 deltaExtremes = max - min;
+			float reqH = deltaExtremes.x / _aspect;
+			reqH = Mathf.Max(deltaExtremes.y,reqH);
+
+
+			averagePosition /= _players.Length;
+			Vector2 shakeOffset=Vector2.zero;
+			if(_shakeIntensity>0){
+				shakeOffset = Random.insideUnitSphere * _shakeIntensity;
+				transform.rotation= Quaternion.Euler(0, 0, _originalRotation + Random.Range(-_shakeIntensity, _shakeIntensity)*.2f);                    
+				_shakeIntensity -= _shakeDecay;
 			}
 
-            if (aliveCount>0)
+            
+            Vector2 delta = averagePosition - new Vector2(transform.position.x, transform.position.y);
+            transform.Translate(delta+shakeOffset);
+            
+            _prev = maxSpeed*ExponentialEasingFactor + _invExpFactor*_prev;
+
+			float finalSize;
+            if (_prev > 0)
             {
-
-				Vector2 deltaExtremes = max - min;
-				float reqH = deltaExtremes.x / _aspect;
-				reqH = Mathf.Max(deltaExtremes.y,reqH);
-
-
-				averagePosition /= aliveCount;
-				Vector2 shakeOffset=Vector2.zero;
-				if(_shakeIntensity>0){
-					shakeOffset = Random.insideUnitSphere * _shakeIntensity;
-					transform.rotation= Quaternion.Euler(0, 0, _originalRotation + Random.Range(-_shakeIntensity, _shakeIntensity)*.2f);                    
-					_shakeIntensity -= _shakeDecay;
-				}
-
-
-                
-                Vector2 delta = averagePosition - new Vector2(transform.position.x, transform.position.y);
-                transform.Translate(delta+shakeOffset);
-
-
-
-            	_prev = maxSpeed*ExponentialEasingFactor + _invExpFactor*_prev;
-
-				float finalSize;
-                if (_prev > 0)
+                if (_prev < MaxSpeed)
                 {
-                    if (_prev < MaxSpeed)
-                    {
-                        finalSize = _sizeDelta*(_prev/MaxSpeed) + StartSize;
-                    }
-                    else
-                    {
-
-                        finalSize = MaxSpeedScaleSize;
-                    }
+                    finalSize = _sizeDelta*(_prev/MaxSpeed) + StartSize;
                 }
                 else
                 {
-                    finalSize = StartSize;
+
+                    finalSize = MaxSpeedScaleSize;
                 }
-				finalSize=Mathf.Max(reqH*BoundingMultiplier,finalSize);
-				GetComponent<Camera>().orthographicSize=finalSize;
             }
             else
             {
-                if (_shakeIntensity > 0)
-                {
-                    transform.position = _originalLocation+ Random.insideUnitSphere * _shakeIntensity;
-                    transform.rotation= Quaternion.Euler(0, 0, _originalRotation + Random.Range(-_shakeIntensity, _shakeIntensity)*.2f);                    
-                    _shakeIntensity -= _shakeDecay;
-                }                                
+                finalSize = StartSize;
             }
+			finalSize=Mathf.Max(reqH*BoundingMultiplier,finalSize);
+			GetComponent<Camera>().orthographicSize=finalSize;
+
+
         }
 
         private Vector3 _originalLocation;

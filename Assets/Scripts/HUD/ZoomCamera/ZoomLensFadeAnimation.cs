@@ -9,7 +9,13 @@ public class ZoomLensFadeAnimation : MonoBehaviour
     public Image Background;
     public float FadeOutDuration;
 
-
+    public void ReentrantFadeIn()
+    {
+        if (!IsInvoking("FadeInProgress") && _progress < 0.99f)
+        {
+            FadeIn();
+        }
+    }
 
     public void FadeOut()
     {        
@@ -28,6 +34,8 @@ public class ZoomLensFadeAnimation : MonoBehaviour
     public void Hide()
     {
         SetOpacity(0);
+        CancelInvoke("FadeOutProgress");
+        CancelInvoke("FadeInProgress");
         _progress = 0;
     }
 
